@@ -1,0 +1,88 @@
+{
+  "apiKey": "",
+  "prefix": "-",
+  "botState": 2,
+  "features": [{
+    "channelLimit":{
+      "enabled": true,
+      "data": "bot"
+    },
+    "captchaSystem": {
+      "enabled": true,
+      "data": "www-data;www-data@buffer:~#;user@buffer:~#"
+    },
+    "joinMessage": {
+      "enabled": true,
+      "data": "welcome"
+    },
+    "leaveMessage": {
+      "enabled": true,
+      "data": "welcome"
+    },
+    "Logger": {
+      "enabled": true,
+      "data": "log"
+    }
+  }],
+  "commands": [{
+    "Ban": {
+      "enabled": true,
+      "channelName": "bans",
+      "perms": 4
+    },
+    "Count": {
+      "enabled": true,
+      "channelName": "countgame",
+      "perms": 16
+    },
+    "Delete": {
+      "enabled": true,
+      "perms": 8192
+    },
+    "Ping": {
+      "enabled": true,
+      "perms": 8
+    },
+    "Help": {
+      "enabled": true,
+      "perms": 0
+    },
+    "Tell": {
+      "enabled": false,
+      "perms": 8192
+    },
+    "ServerToken": {
+      "enabled": false,
+      "perms": 8
+    }
+  }],
+  "events": [{
+    "welcome": {
+      "enabled": true,
+      "channel": "welcome"
+    }
+  }],
+  "server": [{
+    "enabled": false,
+    "port": 1337,
+    "aesKey": "null",
+    "aesIv": "null",
+    "tokens": "null"
+  }],
+  "messages": [{
+    "generic": {
+
+    },
+    "captcha": {
+      "welcome": "Hello and welcome on this server. To get access here, you will have to solve Captcha. Just write down code that you think is correct. If it is, bot will automatically add you into classical user role ;)",
+      "error": "Invalid code :(",
+      "success": "Solved"
+    },
+    "welcome": {
+      "success": "Welcome to our server %_user_%."
+    },
+    "ban": {
+      "success": "User %_user_% has been banned from our server."
+    }
+  }]
+}
