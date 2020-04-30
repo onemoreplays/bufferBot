@@ -16,6 +16,7 @@ public class Ban extends Permissionable implements ICommand {
     @Override
     public void onCommand(Main instance, Message message, String[] args) {
         if(!hasPermission(instance, message, this.getClass())){
+            new MessageSender("No Permissions", instance.getConfig().getMessage("generic", "no_perms"), Color.RED, message.getChannel());
             return;
         }
         if(message.isPrivateMessage()){

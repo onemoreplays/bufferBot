@@ -5,9 +5,11 @@ import me.inao.discordbot.ifaces.ICommand;
 import me.inao.discordbot.ifaces.Permissionable;
 import me.inao.discordbot.objects.Countgame;
 import me.inao.discordbot.util.ExceptionCatcher;
+import me.inao.discordbot.util.MessageSender;
 import me.inao.discordbot.util.PermissionCheck;
 import org.javacord.api.entity.message.Message;
 
+import java.awt.*;
 import java.util.Arrays;
 
 public class Count extends Permissionable implements ICommand {
@@ -15,6 +17,7 @@ public class Count extends Permissionable implements ICommand {
     @Override
     public void onCommand(Main instance, Message message, String[] args) {
         if(!hasPermission(instance, message, this.getClass())){
+            new MessageSender("No Permissions", instance.getConfig().getMessage("generic", "no_perms"), Color.RED, message.getChannel());
             return;
         }
         if(args.length < 1){

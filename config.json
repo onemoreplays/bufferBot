@@ -39,10 +39,6 @@
       "enabled": true,
       "perms": 8192
     },
-    "Hacknasa": {
-      "enabled": true,
-      "perms": 0
-    },
     "Ping": {
       "enabled": true,
       "perms": 8
@@ -83,7 +79,7 @@
   }],
   "messages": [{
     "generic": {
-
+      "no_perms": "Sorry, you don't have permissions for that :sad:"
     },
     "captcha": {
       "welcome": "Hello and welcome on this server. To get access here, you will have to solve Captcha. Just write down code that you think is correct. If it is, bot will automatically add you into classical user role ;)",
