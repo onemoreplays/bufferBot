@@ -1,23 +1,20 @@
 package me.inao.discordbot.command;
 
 import me.inao.discordbot.Main;
-import me.inao.discordbot.exception.NoSuchServerException;
-import me.inao.discordbot.exception.NoSuchUserException;
 import me.inao.discordbot.ifaces.ICommand;
 import me.inao.discordbot.ifaces.Permissionable;
-import me.inao.discordbot.util.PermissionCheck;
+import me.inao.discordbot.util.MessageSender;
 import org.javacord.api.entity.message.Message;
 
-public class ServerToken extends Permissionable implements ICommand{
+import java.awt.*;
+
+public class Hacknasa extends Permissionable implements ICommand {
     @Override
     public void onCommand(Main instance, Message message, String[] args) {
         if(!hasPermission(instance, message, this.getClass())){
             return;
         }
-        if(!(Boolean.parseBoolean(instance.getConfig().getServerProperty("enabled")))){
-            System.out.println("here");
-        }
-
+        new MessageSender("Hacking..", instance.getConfig().getMessage(this.getClass().getSimpleName(), "success"), Color.RED, message.getChannel());
     }
 
     @Override

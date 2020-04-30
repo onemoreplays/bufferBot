@@ -2,6 +2,7 @@ package me.inao.discordbot.command;
 
 import me.inao.discordbot.Main;
 import me.inao.discordbot.ifaces.ICommand;
+import me.inao.discordbot.ifaces.Permissionable;
 import me.inao.discordbot.objects.Countgame;
 import me.inao.discordbot.util.ExceptionCatcher;
 import me.inao.discordbot.util.PermissionCheck;
@@ -9,11 +10,11 @@ import org.javacord.api.entity.message.Message;
 
 import java.util.Arrays;
 
-public class Count implements ICommand {
+public class Count extends Permissionable implements ICommand {
 
     @Override
     public void onCommand(Main instance, Message message, String[] args) {
-        if(!(hasPermission(instance, message))){
+        if(!hasPermission(instance, message, this.getClass())){
             return;
         }
         if(args.length < 1){
@@ -23,7 +24,7 @@ public class Count implements ICommand {
         long prev = 0;
         try{
             finish = Long.decode(args[0]);
-            if(args[1] != null){
+            if(args.length == 2){
                 prev = Long.decode(args[1]);
             }
         }catch (Exception e){
@@ -44,10 +45,5 @@ public class Count implements ICommand {
     @Override
     public String getUsage() {
         return "<finish> (prev)";
-    }
-
-    @Override
-    public boolean hasPermission(Main main, Message message) {
-        return new PermissionCheck(main).hasPermission(message.getServer().get(), message.getAuthor().asUser().get(), this.getClass().getSimpleName());
     }
 }

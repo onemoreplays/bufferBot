@@ -11,6 +11,9 @@ public class PermissionCheck{
     private final Main main;
 
     public boolean hasPermission(Server server, User user, String command){
+        if(Integer.parseInt(main.getConfig().getCommandPerms(command)) == 0){
+            return true;
+        }
         return server.hasPermission(user, Permissions.fromBitmask(Integer.parseInt(main.getConfig().getCommandPerms(command))).getAllowedPermission().iterator().next());
     }
 }

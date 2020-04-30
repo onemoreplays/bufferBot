@@ -3,6 +3,7 @@ package me.inao.discordbot;
 import com.google.gson.Gson;
 import lombok.Getter;
 import lombok.Setter;
+import me.inao.discordbot.buffer.SkidBuffer;
 import me.inao.discordbot.event.MessageEditEvent;
 import me.inao.discordbot.event.MessageEvent;
 import me.inao.discordbot.event.OnJoinEvent;
@@ -26,6 +27,8 @@ public class Main {
     @Setter
     private Countgame countgame = null;
     private final SQLite sqlite = new SQLite();
+    @Setter
+    private SkidBuffer skidBuffer = new SkidBuffer(this);
 
     private final UserStatus[] status = {UserStatus.ONLINE, UserStatus.IDLE, UserStatus.DO_NOT_DISTURB, UserStatus.INVISIBLE};
     public static void main(String[] args){

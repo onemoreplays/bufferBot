@@ -48,6 +48,9 @@ public class MessageEvent implements MessageCreateListener {
 		if(e.getMessage().isPrivateMessage()){
 			return;
 		}
+		if(e.getMessageAuthor().isBotUser()){
+			return;
+		}
 		e.getServer().orElseThrow(NoSuchServerException::new).getRolesByName(instance.getConfig().getFeatureData("captchaSystem").split(";")[1]).iterator().forEachRemaining(role ->{
 			try{
 				if(role.getUsers().contains(e.getMessageAuthor().asUser().orElseThrow(NoSuchUserException::new))) {
@@ -80,18 +83,13 @@ public class MessageEvent implements MessageCreateListener {
 
 		if(instance.getConfig().isFeatureEnabled("channelLimit") || instance.getConfig().isCommandEnabled("Count")){
 			if(e.getMessageContent().startsWith(String.valueOf(instance.getConfig().getPrefix()))){
-				if(!(e.getMessageAuthor().canManageMessagesInTextChannel() && e.getServerTextChannel().orElseThrow(NoSuchServerTextChannelException::new).getName().equals(instance.getConfig().getFeatureData("channelLimit")))) return;
+				if(!(e.getMessageAuthor().canManageMessagesInTextChannel()) && !(e.getServerTextChannel().orElseThrow(NoSuchServerTextChannelException::new).getName().equals(instance.getConfig().getFeatureData("channelLimit")))){
+					return;
+				}
 			}if(e.getServerTextChannel().orElseThrow(NoSuchServerTextChannelException::new).getName().equals(instance.getConfig().getCommandRoom("Count"))){
 				if(e.getMessage().getAuthor().isBotUser()) return;
 				else if(instance.getCountgame() == null) return;
 				instance.getCountgame().addCount(e.getMessage());
-			}
-			if(instance.getConfig().isFeatureEnabled("channelLimit")){
-				if(e.getServerTextChannel().orElseThrow(NoSuchServerTextChannelException::new).getName().equals(instance.getConfig().getFeatureData("channelLimit"))){
-					if(!(e.getMessage().getContent().startsWith(String.valueOf(instance.getConfig().getPrefix())))){
-						return;
-					}
-				}
 			}
 		}
 		if (!e.getMessageContent().isEmpty() && e.getMessage().getContent().startsWith(String.valueOf(instance.getConfig().getPrefix()))) {

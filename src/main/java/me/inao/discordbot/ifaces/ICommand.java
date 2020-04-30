@@ -7,5 +7,4 @@ public interface ICommand {
 
     void onCommand(Main instance, Message message, String[] args);
     String getUsage();
-    boolean hasPermission(Main main, Message message);
 }

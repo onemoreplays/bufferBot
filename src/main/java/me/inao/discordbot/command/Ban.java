@@ -5,16 +5,17 @@ import me.inao.discordbot.exception.NoSuchServerException;
 import me.inao.discordbot.exception.NoSuchServerTextChannelException;
 import me.inao.discordbot.exception.NoSuchUserException;
 import me.inao.discordbot.ifaces.ICommand;
+import me.inao.discordbot.ifaces.Permissionable;
 import me.inao.discordbot.util.MessageSender;
 import me.inao.discordbot.util.PermissionCheck;
 import org.javacord.api.entity.message.Message;
 
 import java.awt.*;
 
-public class Ban implements ICommand {
+public class Ban extends Permissionable implements ICommand {
     @Override
     public void onCommand(Main instance, Message message, String[] args) {
-        if(!hasPermission(instance, message)){
+        if(!hasPermission(instance, message, this.getClass())){
             return;
         }
         if(message.isPrivateMessage()){
@@ -31,10 +32,5 @@ public class Ban implements ICommand {
     @Override
     public String getUsage() {
         return "<users (mentions)> (-s (silent?))";
-    }
-
-    @Override
-    public boolean hasPermission(Main main, Message message) {
-        return new PermissionCheck(main).hasPermission(message.getServer().orElseThrow(NoSuchServerException::new), message.getAuthor().asUser().orElseThrow(NoSuchUserException::new), this.getClass().getSimpleName());
     }
 }

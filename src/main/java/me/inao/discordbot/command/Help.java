@@ -3,14 +3,18 @@ package me.inao.discordbot.command;
 import me.inao.discordbot.Main;
 import me.inao.discordbot.event.MessageEvent;
 import me.inao.discordbot.ifaces.ICommand;
+import me.inao.discordbot.ifaces.Permissionable;
 import org.javacord.api.entity.message.Message;
 import org.javacord.api.entity.message.MessageBuilder;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 
-public class Help implements ICommand{
+public class Help extends Permissionable implements ICommand{
 
     @Override
     public void onCommand(Main instance, Message message, String[] args) {
+        if(!hasPermission(instance, message, this.getClass())){
+            return;
+        }
 
         EmbedBuilder builder = new EmbedBuilder();
         builder.setDescription("Helping everyone is my pleasure, you know :eyes:").setTitle("Help");
@@ -31,10 +35,5 @@ public class Help implements ICommand{
     @Override
     public String getUsage() {
         return null;
-    }
-
-    @Override
-    public boolean hasPermission(Main main, Message message) {
-        return true;
     }
 }

@@ -2,14 +2,15 @@ package me.inao.discordbot.command;
 
 import me.inao.discordbot.Main;
 import me.inao.discordbot.ifaces.ICommand;
+import me.inao.discordbot.ifaces.Permissionable;
 import me.inao.discordbot.util.PermissionCheck;
 import org.javacord.api.entity.message.Message;
 import org.javacord.api.entity.message.MessageSet;
 
-public class Delete implements ICommand {
+public class Delete extends Permissionable implements ICommand {
     @Override
     public void onCommand(Main instance, Message message, String[] args) {
-        if(!(hasPermission(instance, message))){
+        if(!hasPermission(instance, message, this.getClass())){
             message.getChannel().sendMessage("Sorry, not enough perms! :(");
             return;
         }
@@ -17,16 +18,11 @@ public class Delete implements ICommand {
             message.getChannel().sendMessage("Not enough args! :angry:");
             return;
         }
-        message.getChannel().getMessages(Integer.parseInt(args[0])).thenAcceptAsync(MessageSet::deleteAll);
+        message.getChannel().getMessages(Integer.parseInt(args[0]) + 1).thenAcceptAsync(MessageSet::deleteAll);
     }
 
     @Override
     public String getUsage() {
         return "<count>";
-    }
-
-    @Override
-    public boolean hasPermission(Main main, Message message) {
-        return new PermissionCheck(main).hasPermission(message.getServer().get(), message.getAuthor().asUser().get(), this.getClass().getSimpleName());
     }
 }

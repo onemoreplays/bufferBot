@@ -39,11 +39,19 @@
       "enabled": true,
       "perms": 8192
     },
+    "Hacknasa": {
+      "enabled": true,
+      "perms": 0
+    },
     "Ping": {
       "enabled": true,
       "perms": 8
     },
     "Help": {
+      "enabled": true,
+      "perms": 0
+    },
+    "Skid": {
       "enabled": true,
       "perms": 0
     },
@@ -54,6 +62,10 @@
     "ServerToken": {
       "enabled": false,
       "perms": 8
+    },
+    "Ticket": {
+      "enabled": false,
+      "perms": 0
     }
   }],
   "events": [{
@@ -83,6 +95,9 @@
     },
     "ban": {
       "success": "User %_user_% has been banned from our server."
+    },
+    "Hacknasa": {
+      "success": "Searching for open port on mainframe.nasa.gov\nFound port 1337..\nTrying to get service\nOS Guess: Debian 11 (Bullseye)\nService: Nostromo 1.9.6\nExploiting with CVE-2019-16287\nExploited!!1!"
     }
   }]
 }
