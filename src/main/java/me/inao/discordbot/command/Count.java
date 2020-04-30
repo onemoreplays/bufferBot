@@ -21,6 +21,7 @@ public class Count extends Permissionable implements ICommand {
             return;
         }
         if(args.length < 1){
+            new MessageSender("No Permissions", instance.getConfig().getMessage("generic", "no_args"), Color.RED, message.getChannel());
             return;
         }
         long finish = 1337;

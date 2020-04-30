@@ -18,7 +18,7 @@ public class Delete extends Permissionable implements ICommand {
             return;
         }
         if(args == null || args.length < 1){
-            message.getChannel().sendMessage("Not enough args! :angry:");
+            new MessageSender("No Permissions", instance.getConfig().getMessage("generic", "no_args"), Color.RED, message.getChannel());
             return;
         }
         message.getChannel().getMessages(Integer.parseInt(args[0]) + 1).thenAcceptAsync(MessageSet::deleteAll);

@@ -79,7 +79,8 @@
   }],
   "messages": [{
     "generic": {
-      "no_perms": "Sorry, you don't have permissions for that :sad:"
+      "no_perms": "Sorry, you don't have permissions for that :sad:",
+      "no_args": "You haven't provided enough args :sad:"
     },
     "captcha": {
       "welcome": "Hello and welcome on this server. To get access here, you will have to solve Captcha. Just write down code that you think is correct. If it is, bot will automatically add you into classical user role ;)",
