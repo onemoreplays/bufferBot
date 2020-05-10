@@ -4,8 +4,11 @@ import me.inao.discordbot.Main;
 import me.inao.discordbot.ifaces.ICommand;
 import me.inao.discordbot.ifaces.Permissionable;
 import me.inao.discordbot.objects.Captcha;
+import me.inao.discordbot.util.Logger;
 import me.inao.discordbot.util.MessageSender;
 import me.inao.discordbot.util.PermissionCheck;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
 import org.javacord.api.entity.message.Message;
 
 import java.awt.*;
@@ -18,7 +21,7 @@ public class Ping extends Permissionable implements ICommand {
             new MessageSender("No Permissions", instance.getConfig().getMessage("generic", "no_perms"), Color.RED, message.getChannel());
             return;
         }
-        new Captcha().gen(instance, message.getAuthor().getIdAsString(), message.getServer().get(), message.getUserAuthor().get());
+        new Logger(instance, true, this.getClass().getSimpleName(), "Testing lulee", Level.INFO);
     }
 
     @Override

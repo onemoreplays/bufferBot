@@ -1,5 +1,5 @@
 {
-  "apiKey": "",
+  "apiKey": "NjgwODc4NjM3NjEyMDA3NTEw.XrgptA.Z9zT5isi9eFgw3gjqJIWAZxEEIY",
   "prefix": "-",
   "botState": 2,
   "features": [{
@@ -60,8 +60,8 @@
       "perms": 8
     },
     "Ticket": {
-      "enabled": false,
-      "perms": 0
+      "enabled": true,
+      "perms": 8
     }
   }],
   "events": [{
@@ -92,9 +92,6 @@
     },
     "ban": {
       "success": "User %_user_% has been banned from our server."
-    },
-    "Hacknasa": {
-      "success": "Searching for open port on mainframe.nasa.gov\nFound port 1337..\nTrying to get service\nOS Guess: Debian 11 (Bullseye)\nService: Nostromo 1.9.6\nExploiting with CVE-2019-16287\nExploited!!1!"
     }
   }]
 }

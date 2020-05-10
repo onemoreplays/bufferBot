@@ -1,8 +1,8 @@
 .idea
 DiscordBotBase.iml
-src/main/resources/
+src/main/java/me/inao/discordbot/command/Skid.java
+src/main/java/me/inao/discordbot/skidutils/
 src/test/
 target/
 config.json
-src/main/java/me/inao/discordbot/command/Skid.java
-src/main/java/me/inao/discordbot/skidutils/
+/generated/log/

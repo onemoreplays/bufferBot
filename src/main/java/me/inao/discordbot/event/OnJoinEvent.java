@@ -1,6 +1,7 @@
 package me.inao.discordbot.event;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import me.inao.discordbot.Main;
 import me.inao.discordbot.buffer.JoiningBuffer;
@@ -12,15 +13,13 @@ import org.javacord.api.listener.server.member.ServerMemberJoinListener;
 import java.awt.*;
 import java.util.Timer;
 
+@RequiredArgsConstructor
 public class OnJoinEvent implements ServerMemberJoinListener {
     @Getter
     @Setter
     private int joins = 0;
     private final Main main;
     private boolean running = false;
-    public OnJoinEvent(Main main){
-        this.main = main;
-    }
 
 
     @Override

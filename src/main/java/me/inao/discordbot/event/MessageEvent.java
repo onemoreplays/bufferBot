@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.*;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import me.inao.discordbot.exception.NoSuchServerException;
 import me.inao.discordbot.exception.NoSuchServerTextChannelException;
 import me.inao.discordbot.exception.NoSuchUserException;

@@ -15,6 +15,15 @@ public class Ticket extends Permissionable implements ICommand {
             new MessageSender("No Permissions", instance.getConfig().getMessage("generic", "no_perms"), Color.RED, message.getChannel());
             return;
         }
+        if (args != null) {
+            if(args.length < 1){
+                new MessageSender("Not enough arguments", instance.getConfig().getMessage("generic", "no_args"), Color.RED, message.getChannel());
+                return;
+            }
+            new MessageSender("Not enough arguments", instance.getConfig().getMessage("generic", "no_args"), Color.RED, message.getChannel());
+            return;
+        }
+
     }
 
     @Override

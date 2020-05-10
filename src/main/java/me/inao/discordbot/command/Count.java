@@ -1,6 +1,7 @@
 package me.inao.discordbot.command;
 
 import me.inao.discordbot.Main;
+import me.inao.discordbot.exception.NoSuchServerTextChannelException;
 import me.inao.discordbot.ifaces.ICommand;
 import me.inao.discordbot.ifaces.Permissionable;
 import me.inao.discordbot.objects.Countgame;
@@ -21,7 +22,7 @@ public class Count extends Permissionable implements ICommand {
             return;
         }
         if(args.length < 1){
-            new MessageSender("No Permissions", instance.getConfig().getMessage("generic", "no_args"), Color.RED, message.getChannel());
+            new MessageSender("Not enough arguments", instance.getConfig().getMessage("generic", "no_args"), Color.RED, message.getChannel());
             return;
         }
         long finish = 1337;
@@ -42,7 +43,7 @@ public class Count extends Permissionable implements ICommand {
         }
         long finalFinish = finish;
         long prevFinish = prev;
-        message.getServer().ifPresent(server-> instance.setCountgame(new Countgame(server.getChannelsByName(instance.getConfig().getCommandRoom(this.getClass().getSimpleName())).get(0).asServerTextChannel().get(), finalFinish, instance, prevFinish)));
+        message.getServer().ifPresent(server-> instance.setCountgame(new Countgame(server.getChannelsByName(instance.getConfig().getCommandRoom(this.getClass().getSimpleName())).get(0).asServerTextChannel().orElseThrow(NoSuchServerTextChannelException::new), finalFinish, instance, prevFinish)));
 
     }
 
