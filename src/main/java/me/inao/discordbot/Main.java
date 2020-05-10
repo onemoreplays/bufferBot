@@ -47,7 +47,7 @@ public class Main {
         api.updateStatus(status[config.getState()]);
         api.updateActivity(ActivityType.PLAYING, "Powered by Raspberry Pi 3 and Java :)");
         new Server(this).start();
-        new me.inao.discordbot.util.Logger(this, true, "", "Loaded. Invite: " + api.createBotInvite(), Level.INFO);
+        new me.inao.discordbot.util.Logger(this, true, "Bot start", "Loaded. Invite: " + api.createBotInvite(), Level.INFO);
         Runtime.getRuntime().addShutdownHook(new ShutdownHook(this));
     }
     public void loadConfig(){

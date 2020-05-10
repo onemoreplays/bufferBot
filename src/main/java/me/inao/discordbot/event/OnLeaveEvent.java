@@ -2,8 +2,11 @@ package me.inao.discordbot.event;
 
 import lombok.RequiredArgsConstructor;
 import me.inao.discordbot.Main;
+import me.inao.discordbot.exception.NoSuchServerTextChannelException;
 import me.inao.discordbot.util.ExceptionCatcher;
+import me.inao.discordbot.util.Logger;
 import me.inao.discordbot.util.MessageSender;
+import org.apache.logging.log4j.Level;
 import org.javacord.api.event.server.member.ServerMemberLeaveEvent;
 import org.javacord.api.listener.server.member.ServerMemberLeaveListener;
 
@@ -30,7 +33,12 @@ public class OnLeaveEvent implements ServerMemberLeaveListener {
             }
         });
         if(main.getConfig().isFeatureEnabled("leaveMessage")){
-            new MessageSender(e.getUser().getDiscriminatedName() + " has left us :(", main.getConfig().getMessage("leaveMessage", "success"), Color.RED, e.getServer().getChannelsByName(main.getConfig().getFeatureData("leaveSystem")).get(0).asServerTextChannel().get());
+            new MessageSender(e.getUser().getDiscriminatedName() + " has left us :(",
+                    main.getConfig().getMessage("leaveMessage", "success"),
+                    Color.RED,
+                    e.getServer().getChannelsByName(main.getConfig().getFeatureData("leaveMessage")).get(0).asServerTextChannel().orElseThrow(NoSuchServerTextChannelException::new)
+            );
+            new Logger(main, false, "Leave", "User " + e.getUser().getDiscriminatedName() + " has left", Level.INFO);
         }
     }
 }

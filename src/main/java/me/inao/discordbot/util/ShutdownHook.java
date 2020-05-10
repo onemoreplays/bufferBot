@@ -10,7 +10,7 @@ public class ShutdownHook extends Thread{
     private final Main instance;
     @Override
     public void run(){
-        instance.getLogger().log(Level.WARN, "Bot is shutting down!");
+        new Logger(instance, true, "Bot shutdown", "Bot is shutting down", Level.WARN);
         LogManager.shutdown();
     }
 }
