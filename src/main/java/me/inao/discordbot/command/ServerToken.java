@@ -1,12 +1,9 @@
 package me.inao.discordbot.command;
 
 import me.inao.discordbot.Main;
-import me.inao.discordbot.exception.NoSuchServerException;
-import me.inao.discordbot.exception.NoSuchUserException;
 import me.inao.discordbot.ifaces.ICommand;
 import me.inao.discordbot.ifaces.Permissionable;
 import me.inao.discordbot.util.MessageSender;
-import me.inao.discordbot.util.PermissionCheck;
 import org.javacord.api.entity.message.Message;
 
 import java.awt.*;

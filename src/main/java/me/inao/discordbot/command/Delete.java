@@ -4,7 +4,6 @@ import me.inao.discordbot.Main;
 import me.inao.discordbot.ifaces.ICommand;
 import me.inao.discordbot.ifaces.Permissionable;
 import me.inao.discordbot.util.MessageSender;
-import me.inao.discordbot.util.PermissionCheck;
 import org.javacord.api.entity.message.Message;
 import org.javacord.api.entity.message.MessageSet;
 

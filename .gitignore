@@ -4,5 +4,6 @@ src/main/java/me/inao/discordbot/command/Skid.java
 src/main/java/me/inao/discordbot/skidutils/
 src/test/
 target/
+/src/main/java/me/inao/discordbot/buffer/SkidBuffer.java
 config.json
 /generated/log/

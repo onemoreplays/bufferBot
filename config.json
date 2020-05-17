@@ -1,8 +1,12 @@
 {
-  "apiKey": "NjgwODc4NjM3NjEyMDA3NTEw.XrgptA.Z9zT5isi9eFgw3gjqJIWAZxEEIY",
+  "apiKey": "",
   "prefix": "-",
   "botState": 2,
   "features": [{
+    "blacklistSystem": {
+      "enabled": true,
+      "data": "permission denied"
+    },
     "channelLimit":{
       "enabled": true,
       "data": "bot"

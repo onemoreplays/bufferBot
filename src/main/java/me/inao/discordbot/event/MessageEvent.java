@@ -1,21 +1,24 @@
 package me.inao.discordbot.event;
 
-import java.awt.*;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.*;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import me.inao.discordbot.Main;
 import me.inao.discordbot.exception.NoSuchServerException;
 import me.inao.discordbot.exception.NoSuchServerTextChannelException;
 import me.inao.discordbot.exception.NoSuchUserException;
+import me.inao.discordbot.ifaces.ICommand;
+import me.inao.discordbot.util.ExceptionCatcher;
 import me.inao.discordbot.util.MessageSender;
 import org.javacord.api.event.message.MessageCreateEvent;
 import org.javacord.api.listener.message.MessageCreateListener;
 import org.reflections.Reflections;
-import me.inao.discordbot.Main;
-import me.inao.discordbot.ifaces.ICommand;
-import me.inao.discordbot.util.ExceptionCatcher;
+
+import java.awt.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 
 @Getter
 public class MessageEvent implements MessageCreateListener {
@@ -78,7 +81,6 @@ public class MessageEvent implements MessageCreateListener {
 				}catch (Exception exception){
 					new ExceptionCatcher(exception);
 				}
-			return;
 		});
 
 
