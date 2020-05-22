@@ -1,6 +1,7 @@
 package me.inao.discordbot;
 
 import com.google.gson.Gson;
+import com.vdurmont.emoji.EmojiParser;
 import lombok.Getter;
 import lombok.Setter;
 import me.inao.discordbot.buffer.SkidBuffer;
@@ -35,6 +36,7 @@ public class Main {
     @Setter
     private SkidBuffer skidBuffer = new SkidBuffer(this);
     private final Logger logger = LogManager.getLogger("me.inao.discordbot");
+    private boolean debug = false;
 
     private final UserStatus[] status = {UserStatus.ONLINE, UserStatus.IDLE, UserStatus.DO_NOT_DISTURB, UserStatus.INVISIBLE};
     public static void main(String[] args){
@@ -45,7 +47,8 @@ public class Main {
         api = new DiscordApiBuilder().setToken(config.getApiKey()).login().join();
         loadListeners(api);
         api.updateStatus(status[config.getState()]);
-        api.updateActivity(ActivityType.PLAYING, "Powered by Raspberry Pi 3 and Java :)");
+        if(debug) api.updateActivity(ActivityType.PLAYING, "Launched in debug mode " + EmojiParser.parseToUnicode(":bug:"));
+        else api.updateActivity(ActivityType.PLAYING, "with Raspberry and Java" + EmojiParser.parseToUnicode(":yum:"));
         new Server(this).start();
         new me.inao.discordbot.util.Logger(this, true, "Bot start", "Loaded. Invite: " + api.createBotInvite(), Level.INFO);
         Runtime.getRuntime().addShutdownHook(new ShutdownHook(this));

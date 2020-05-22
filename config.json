@@ -26,6 +26,10 @@
     "Logger": {
       "enabled": true,
       "data": "log"
+    },
+    "antilink": {
+      "enabled": true,
+      "data": "youtube.com;streamable.com;discord.gg;discord.com;discordapp.com"
     }
   }],
   "commands": [{

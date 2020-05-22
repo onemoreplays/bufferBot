@@ -85,14 +85,18 @@ public class MessageEvent implements MessageCreateListener {
 
 
 		if(instance.getConfig().isFeatureEnabled("channelLimit") || instance.getConfig().isCommandEnabled("Count")){
+			if(e.getMessage().getAuthor().isBotUser()) { e.getMessage().delete(); return; }
 			if(e.getMessageContent().startsWith(String.valueOf(instance.getConfig().getPrefix()))){
 				if(!(e.getMessageAuthor().canManageMessagesInTextChannel()) && !(e.getServerTextChannel().orElseThrow(NoSuchServerTextChannelException::new).getName().equals(instance.getConfig().getFeatureData("channelLimit")))){
+					e.getMessage().delete();
 					return;
 				}
-			}if(e.getServerTextChannel().orElseThrow(NoSuchServerTextChannelException::new).getName().equals(instance.getConfig().getCommandRoom("Count"))){
-				if(e.getMessage().getAuthor().isBotUser()) return;
-				else if(instance.getCountgame() == null) return;
-				instance.getCountgame().addCount(e.getMessage());
+			}
+			if(e.getMessage().getChannel().asServerTextChannel().orElseThrow(NoSuchServerTextChannelException::new).getName().equals(instance.getConfig().getCommandRoom("Count"))){
+				if(!(e.getMessageAuthor().canManageMessagesInTextChannel())){
+					if(instance.getCountgame() == null) return;
+				}
+				if(!(e.getMessageContent().contains(String.valueOf(instance.getConfig().getPrefix()))) && !(instance.getCountgame() == null))instance.getCountgame().addCount(e.getMessage());
 			}
 		}
 		if (!e.getMessageContent().isEmpty() && e.getMessage().getContent().startsWith(String.valueOf(instance.getConfig().getPrefix()))) {

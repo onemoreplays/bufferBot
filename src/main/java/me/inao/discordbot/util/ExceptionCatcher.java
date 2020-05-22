@@ -1,6 +1,5 @@
 package me.inao.discordbot.util;
 
-
 import java.util.HashMap;
 
 public class ExceptionCatcher {
