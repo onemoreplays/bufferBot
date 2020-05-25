@@ -55,11 +55,8 @@ public class Main {
     }
     public void loadConfig(){
         Gson gson = new Gson();
-        BufferedReader reader;
-        try {
-            reader = new BufferedReader(new FileReader("config.json"));
+        try (BufferedReader reader = new BufferedReader(new FileReader("config.json"))){
             config = gson.fromJson(reader, Config.class);
-            reader.close();
         }catch (Exception e){
             new me.inao.discordbot.util.Logger(this, true, "", "Unable to log file", Level.FATAL);
             new ExceptionCatcher(e);
