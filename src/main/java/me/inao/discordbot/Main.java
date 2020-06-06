@@ -5,16 +5,10 @@ import com.vdurmont.emoji.EmojiParser;
 import lombok.Getter;
 import lombok.Setter;
 import me.inao.discordbot.buffer.SkidBuffer;
-import me.inao.discordbot.event.MessageEditEvent;
-import me.inao.discordbot.event.MessageEvent;
-import me.inao.discordbot.event.OnJoinEvent;
-import me.inao.discordbot.event.OnLeaveEvent;
 import me.inao.discordbot.objects.Config;
 import me.inao.discordbot.objects.Countgame;
 import me.inao.discordbot.server.Server;
-import me.inao.discordbot.util.ExceptionCatcher;
-import me.inao.discordbot.util.SQLite;
-import me.inao.discordbot.util.ShutdownHook;
+import me.inao.discordbot.util.*;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -36,7 +30,9 @@ public class Main {
     @Setter
     private SkidBuffer skidBuffer = new SkidBuffer(this);
     private final Logger logger = LogManager.getLogger("me.inao.discordbot");
-    private boolean debug = false;
+    private final boolean debug = false;
+    @Getter
+    Loader loader;
 
     private final UserStatus[] status = {UserStatus.ONLINE, UserStatus.IDLE, UserStatus.DO_NOT_DISTURB, UserStatus.INVISIBLE};
     public static void main(String[] args){
@@ -44,14 +40,26 @@ public class Main {
     }
     public void starter(){
         loadConfig();
-        api = new DiscordApiBuilder().setToken(config.getApiKey()).login().join();
-        loadListeners(api);
+        DiscordApiBuilder apiBuilder = new DiscordApiBuilder().setToken(config.getApiKey());
+        loader = new Loader(this, apiBuilder);
+        try{
+            loader.loadListeners("me.inao.discordbot.event");
+            loader.loadCommands("me.inao.discordbot.command");
+        }catch (Exception e){
+            new ExceptionCatcher(e);
+            new me.inao.discordbot.util.Logger(this, true, false, "Loading problem", "Cannot load bot (Event/Command). Shutting down!", Level.FATAL);
+            System.exit(0);
+        }
+        this.api = apiBuilder.login().join();
         api.updateStatus(status[config.getState()]);
         if(debug) api.updateActivity(ActivityType.PLAYING, "Launched in debug mode " + EmojiParser.parseToUnicode(":bug:"));
         else api.updateActivity(ActivityType.PLAYING, "with Raspberry and Java" + EmojiParser.parseToUnicode(":yum:"));
+        api.setAutomaticMessageCacheCleanupEnabled(true);
         new Server(this).start();
-        new me.inao.discordbot.util.Logger(this, true, "Bot start", "Loaded. Invite: " + api.createBotInvite(), Level.INFO);
+        api.setMessageCacheSize(15, 3600);
+        new me.inao.discordbot.util.Logger(this, true, true, "Bot start", "Loaded. Invite: " + api.createBotInvite(), Level.INFO);
         Runtime.getRuntime().addShutdownHook(new ShutdownHook(this));
+        if(config.isFeatureEnabled("midnightRestart")) new Rebooter();
     }
     public void loadConfig(){
         Gson gson = new Gson();
@@ -61,14 +69,7 @@ public class Main {
             config = gson.fromJson(reader, Config.class);
             reader.close();
         }catch (Exception e){
-            new me.inao.discordbot.util.Logger(this, true, "", "Unable to log file", Level.FATAL);
             new ExceptionCatcher(e);
         }
-    }
-    private void loadListeners(DiscordApi api){
-        api.addMessageEditListener(new MessageEditEvent(this));
-        api.addMessageCreateListener(new MessageEvent(this));
-        api.addServerMemberJoinListener(new OnJoinEvent(this));
-        api.addServerMemberLeaveListener(new OnLeaveEvent(this));
     }
 }

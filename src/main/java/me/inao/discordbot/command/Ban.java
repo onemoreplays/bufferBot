@@ -27,7 +27,7 @@ public class Ban extends Permissionable implements ICommand {
             if(!args[args.length - 1].equals("-s")){
                 new MessageSender("User banned.", instance.getConfig().getMessage("ban", "success").replace("%_user_%", user.getDiscriminatedName()), Color.BLACK, message.getServer().get().getChannelsByName(instance.getConfig().getCommandRoom(this.getClass().getSimpleName())).get(0).asServerTextChannel().orElseThrow(NoSuchServerTextChannelException::new));
             }
-            new Logger(instance, true, "User banned", "User " + user.getDiscriminatedName() + " has been banned from the server.", Level.INFO);
+            new Logger(instance, true, true, "User banned", "User " + user.getDiscriminatedName() + " has been banned from the server.", Level.INFO);
         });
     }
 

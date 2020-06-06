@@ -3,7 +3,7 @@ package me.inao.discordbot.event;
 import lombok.RequiredArgsConstructor;
 import me.inao.discordbot.Main;
 import me.inao.discordbot.exception.NoSuchServerTextChannelException;
-import me.inao.discordbot.util.ExceptionCatcher;
+import me.inao.discordbot.ifaces.IListener;
 import me.inao.discordbot.util.Logger;
 import me.inao.discordbot.util.MessageSender;
 import org.apache.logging.log4j.Level;
@@ -11,34 +11,38 @@ import org.javacord.api.event.server.member.ServerMemberLeaveEvent;
 import org.javacord.api.listener.server.member.ServerMemberLeaveListener;
 
 import java.awt.*;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 
 @RequiredArgsConstructor
-public class OnLeaveEvent implements ServerMemberLeaveListener {
+public class OnLeaveEvent implements ServerMemberLeaveListener, IListener {
     private final Main main;
     @Override
     public void onServerMemberLeave(ServerMemberLeaveEvent e) {
-        e.getUser().getRoles(e.getServer()).iterator().forEachRemaining(role -> {
-            if(role.getName().equals(main.getConfig().getFeatureData("captchaSystem").split(";")[1])){
-                e.getServer().getChannelsByName("captcha-" + e.getUser().getIdAsString()).get(0).delete();
-                try{
-                    PreparedStatement stmnt = main.getSqlite().openConnection().prepareStatement("DELETE FROM captcha WHERE userid = ?");
-                    stmnt.setString(1, e.getUser().getIdAsString());
-                    main.getSqlite().execute(stmnt);
-                    stmnt.getConnection().close();
-                    stmnt.close();
-                }catch (Exception exd){
-                    new ExceptionCatcher(exd);
+        if(main.getConfig().isFeatureEnabled("captchaSystem")){
+            e.getServer().getRoles(e.getUser()).iterator().forEachRemaining(role -> {
+                if(role.getName().equals(main.getConfig().getFeatureData(main.getConfig().getFeatureData("captchaSystem")).split(";")[1])){
+                    Connection connection =  main.getSqlite().openConnection();
+                    try{
+                        PreparedStatement st = connection.prepareStatement("DELETE FROM captcha WHERE userid = ?");
+                        st.setString(1, e.getUser().getIdAsString());
+                        main.getSqlite().execute(st);
+                        st.close();
+                        connection.close();
+                    }catch (Exception exception){
+                        exception.printStackTrace();
+                    }
+                    e.getServer().getChannelsByName("captcha-"+e.getUser().getIdAsString()).get(0).delete();
                 }
-            }
-        });
+            });
+        }
         if(main.getConfig().isFeatureEnabled("leaveMessage")){
             new MessageSender(e.getUser().getDiscriminatedName() + " has left us :(",
-                    main.getConfig().getMessage("leaveMessage", "success"),
+                    main.getConfig().getMessage("leave", "success").replace("%_user_%", e.getUser().getDiscriminatedName()),
                     Color.RED,
                     e.getServer().getChannelsByName(main.getConfig().getFeatureData("leaveMessage")).get(0).asServerTextChannel().orElseThrow(NoSuchServerTextChannelException::new)
             );
-            new Logger(main, false, "Leave", "User " + e.getUser().getDiscriminatedName() + " has left", Level.INFO);
+            new Logger(main, false, true, "Leave", "User " + e.getUser().getDiscriminatedName() + " has left", Level.INFO);
         }
     }
 }

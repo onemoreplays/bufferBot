@@ -1,7 +1,6 @@
 package me.inao.discordbot.command;
 
 import me.inao.discordbot.Main;
-import me.inao.discordbot.event.MessageEvent;
 import me.inao.discordbot.ifaces.ICommand;
 import me.inao.discordbot.ifaces.Permissionable;
 import me.inao.discordbot.util.MessageSender;
@@ -24,7 +23,7 @@ public class Help extends Permissionable implements ICommand{
         builder.setDescription("Helping everyone is my pleasure, you know :eyes:").setTitle("Help");
         builder.setFooter("Prefix for commands is " + instance.getConfig().getPrefix());
 
-        ((MessageEvent) instance.getApi().getMessageCreateListeners().get(0)).getLoadedCommands().entrySet().iterator().forEachRemaining(st->{
+        instance.getLoader().getLoadedCommands().entrySet().iterator().forEachRemaining(st->{
             if(instance.getConfig().isCommandEnabled(st.getKey())){
                 if(st.getValue().getUsage() != null){
                     builder.addField(st.getKey(), st.getKey() + " " + st.getValue().getUsage());
