@@ -47,8 +47,7 @@ public class Main {
         api = new DiscordApiBuilder().setToken(config.getApiKey()).login().join();
         loadListeners(api);
         api.updateStatus(status[config.getState()]);
-        if(debug) api.updateActivity(ActivityType.PLAYING, "Launched in debug mode " + EmojiParser.parseToUnicode(":bug:"));
-        else api.updateActivity(ActivityType.PLAYING, "with Raspberry and Java" + EmojiParser.parseToUnicode(":yum:"));
+        api.updateActivity(ActivityType.PLAYING, (debug) ? "Launched in debug mode " + EmojiParser.parseToUnicode(":bug:") : "with Raspberry and Java" + EmojiParser.parseToUnicode(":yum:"));
         new Server(this).start();
         new me.inao.discordbot.util.Logger(this, true, "Bot start", "Loaded. Invite: " + api.createBotInvite(), Level.INFO);
         Runtime.getRuntime().addShutdownHook(new ShutdownHook(this));
