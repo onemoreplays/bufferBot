@@ -1,6 +1,6 @@
 {
   "apiKey": "",
-  "prefix": "-",
+  "prefix": "!",
   "botState": 2,
   "features": [{
     "blacklistSystem": {
@@ -11,25 +11,40 @@
       "enabled": true,
       "data": "bot"
     },
-    "captchaSystem": {
+    "tempMute": {
       "enabled": true,
+      "data": "retard"
+    },
+    "captchaSystem": {
+      "enabled": false,
       "data": "www-data;www-data@buffer:~#;user@buffer:~#"
     },
     "joinMessage": {
       "enabled": true,
-      "data": "welcome"
+      "data": null,
+      "room": "welcome",
+      "category": "useless"
     },
     "leaveMessage": {
       "enabled": true,
-      "data": "welcome"
+      "data": null,
+      "room": "welcome",
+      "category": "useless"
     },
     "Logger": {
       "enabled": true,
-      "data": "log"
+      "data": null,
+      "room": "log",
+      "category": "admin"
     },
-    "antilink": {
+    "antiLink": {
       "enabled": true,
-      "data": "youtube.com;streamable.com;discord.gg;discord.com;discordapp.com"
+      "data": "discord.gg;discord.com;discordapp.com",
+      "room": null,
+      "category": null
+    },
+    "midnightRestart": {
+      "enabled": true
     }
   }],
   "commands": [{
@@ -46,6 +61,10 @@
     "Delete": {
       "enabled": true,
       "perms": 8192
+    },
+    "Mute": {
+      "enabled": true,
+      "perms": 4
     },
     "Ping": {
       "enabled": true,
@@ -66,10 +85,6 @@
     "ServerToken": {
       "enabled": false,
       "perms": 8
-    },
-    "Ticket": {
-      "enabled": true,
-      "perms": 8
     }
   }],
   "events": [{
@@ -81,9 +96,9 @@
   "server": [{
     "enabled": false,
     "port": 1337,
-    "aesKey": "null",
-    "aesIv": "null",
-    "tokens": "null"
+    "aesKey": "339FUHjFxL0Co5AQw7ZHuVYFCftbTIzaOLhp0e/44VA=",
+    "aesIv": "Sg4s64v6K+yLvFxYdrqycQ==",
+    "tokens": "Nnu2JrvXrRqAi89LHqkWHb5piVNytmgVRJvjPpD42Qi8qGbpQVmPxLEyJG6SkXMndSGeySMZuagrSSdhGp8QP5ig2HeCubigANhBL6fEuGtcuU;"
   }],
   "messages": [{
     "generic": {
@@ -91,12 +106,15 @@
       "no_args": "You haven't provided enough args :sad:"
     },
     "captcha": {
-      "welcome": "Hello and welcome on this server. To get access here, you will have to solve Captcha. Just write down code that you think is correct. If it is, bot will automatically add you into classical user role ;)",
+      "welcome": "Hello and welcome on this server. To get access here, you will have to solve Captcha. Visit this link to do that: %_link_% .\nWhen you will be done, just react with %_emoji_%",
       "error": "Invalid code :(",
       "success": "Solved"
     },
     "welcome": {
       "success": "Welcome to our server %_user_%."
+    },
+    "leave": {
+      "success": "Goodbye %_user_%"
     },
     "ban": {
       "success": "User %_user_% has been banned from our server."

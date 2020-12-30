@@ -3,10 +3,11 @@ package me.inao.discordbot.server;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import me.inao.discordbot.Main;
-import me.inao.discordbot.ifaces.IAction;
+import me.inao.discordbot.ifaces.IResponse;
 import me.inao.discordbot.util.AES;
 import me.inao.discordbot.util.ExceptionCatcher;
 import org.reflections.Reflections;
+
 import java.net.ServerSocket;
 import java.util.HashMap;
 import java.util.Set;
@@ -16,7 +17,7 @@ public class Server extends Thread{
     private final Main instance;
     private volatile boolean run = true;
     @Getter
-    private HashMap<String, IAction> actions;
+    private HashMap<String, IResponse> actions;
     @Override
     public void run(){
         if(!(Boolean.parseBoolean(instance.getConfig().getServerProperty("enabled")))){
@@ -34,10 +35,10 @@ public class Server extends Thread{
             }
             if(!run) return;
             try{
-                Reflections refl = new Reflections("me.inao.discordbot.server.actions");
-                Set<Class<? extends IAction>> classes = refl.getSubTypesOf(IAction.class);
+                Reflections refl = new Reflections("me.inao.discordbot.server.response");
+                Set<Class<? extends IResponse>> classes = refl.getSubTypesOf(IResponse.class);
                 actions = new HashMap<>(classes.size());
-                for (Class<? extends IAction> clazz : classes) {
+                for (Class<? extends IResponse> clazz : classes) {
                     actions.put(clazz.getSimpleName(), clazz.getDeclaredConstructor().newInstance());
                 }
             }catch (Exception e){

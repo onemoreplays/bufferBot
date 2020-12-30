@@ -1,14 +1,16 @@
 package me.inao.discordbot.server;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
-@AllArgsConstructor
+@Setter
 @Getter
 public class Packet {
-    private final String token;
-    private final String action;
-    private final String origin;
-    private final String channel;
-    private final String message;
+    private String token = null;
+    private String action = null;
+    private String origin = null;
+    private String channel = null;
+    private String message = null;
+    private String user = null;
+    private String code = null;
 }

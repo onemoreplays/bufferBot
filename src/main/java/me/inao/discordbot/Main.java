@@ -8,7 +8,10 @@ import me.inao.discordbot.buffer.SkidBuffer;
 import me.inao.discordbot.objects.Config;
 import me.inao.discordbot.objects.Countgame;
 import me.inao.discordbot.server.Server;
-import me.inao.discordbot.util.*;
+import me.inao.discordbot.util.ExceptionCatcher;
+import me.inao.discordbot.util.Loader;
+import me.inao.discordbot.util.SQLite;
+import me.inao.discordbot.util.ShutdownHook;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -59,7 +62,6 @@ public class Main {
         api.setMessageCacheSize(15, 3600);
         new me.inao.discordbot.util.Logger(this, true, true, "Bot start", "Loaded. Invite: " + api.createBotInvite(), Level.INFO);
         Runtime.getRuntime().addShutdownHook(new ShutdownHook(this));
-        if(config.isFeatureEnabled("midnightRestart")) new Rebooter();
     }
     public void loadConfig(){
         Gson gson = new Gson();

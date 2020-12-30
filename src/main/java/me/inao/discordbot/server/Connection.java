@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import me.inao.discordbot.Main;
 import me.inao.discordbot.util.AES;
 import me.inao.discordbot.util.ExceptionCatcher;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -34,7 +35,7 @@ public class Connection extends Thread{
             if(exec){
                 for(String action : server.getActions().keySet()){
                     if(action.equals(packet.getAction())){
-                        server.getActions().get(action).onReceive(instance.getApi(), packet.getMessage(), packet.getOrigin(), packet.getChannel());
+                        server.getActions().get(action).onReceive(instance.getApi(), packet);
                         break;
                     }
                 }
