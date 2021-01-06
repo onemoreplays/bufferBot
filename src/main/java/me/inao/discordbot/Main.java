@@ -33,7 +33,7 @@ public class Main {
     @Setter
     private SkidBuffer skidBuffer = new SkidBuffer(this);
     private final Logger logger = LogManager.getLogger("me.inao.discordbot");
-    private final boolean debug = false;
+    private final boolean debug = true;
     @Getter
     Loader loader;
 
@@ -60,7 +60,7 @@ public class Main {
         api.setAutomaticMessageCacheCleanupEnabled(true);
         new Server(this).start();
         api.setMessageCacheSize(15, 3600);
-        new me.inao.discordbot.util.Logger(this, true, true, "Bot start", "Loaded. Invite: " + api.createBotInvite(), Level.INFO);
+        new me.inao.discordbot.util.Logger(this, true, true, "Bot start", "Loaded. Invite: " + api.createBotInvite().replace("permissions=0", "permissions=8"), Level.INFO);
         Runtime.getRuntime().addShutdownHook(new ShutdownHook(this));
     }
     public void loadConfig(){

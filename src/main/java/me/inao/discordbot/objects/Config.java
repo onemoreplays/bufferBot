@@ -40,6 +40,11 @@ public class Config {
     @Expose
     List<JsonObject> messages;
 
+    @SerializedName("setup")
+    @Expose
+    @Getter
+    List<JsonObject> setup;
+
     public boolean isCommandEnabled(String name){
         try{
             for (JsonObject command : commands){
@@ -95,6 +100,7 @@ public class Config {
                 return other.getAsJsonObject(name).get("enabled").getAsBoolean();
             }
         }catch (Exception e){
+            System.out.println(name);
             System.out.println("Feature not found in config :(");
         }
         return false;
@@ -105,6 +111,7 @@ public class Config {
                 return other.getAsJsonObject(name).get("data").getAsString();
             }
         }catch (Exception e){
+            System.out.println(name);
             System.out.println("Feature not found in config :(");
         }
         return null;

@@ -27,4 +27,10 @@ public class CaptchaRequest implements IRequest {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public int getType() {
+        //0 means HTTP REST API
+        return 0;
+    }
 }
