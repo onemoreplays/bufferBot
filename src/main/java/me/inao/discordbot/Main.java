@@ -55,6 +55,7 @@ public class Main {
         }
         this.api = apiBuilder.login().join();
         api.updateStatus(status[config.getState()]);
+        api.updateActivity(ActivityType.PLAYING, (debug) ? "Launched in debug mode " + EmojiParser.parseToUnicode(":bug:") : "with Raspberry and Java" + EmojiParser.parseToUnicode(":yum:"));
         if(debug) api.updateActivity(ActivityType.PLAYING, "Launched in debug mode " + EmojiParser.parseToUnicode(":bug:"));
         else api.updateActivity(ActivityType.PLAYING, "with Raspberry and Java" + EmojiParser.parseToUnicode(":yum:"));
         api.setAutomaticMessageCacheCleanupEnabled(true);
@@ -65,11 +66,8 @@ public class Main {
     }
     public void loadConfig(){
         Gson gson = new Gson();
-        BufferedReader reader;
-        try {
-            reader = new BufferedReader(new FileReader("config.json"));
+        try (BufferedReader reader = new BufferedReader(new FileReader("config.json"))){
             config = gson.fromJson(reader, Config.class);
-            reader.close();
         }catch (Exception e){
             new ExceptionCatcher(e);
         }
