@@ -4,15 +4,18 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import me.inao.discordbot.Main;
 import me.inao.discordbot.buffer.UnmuteBuffer;
+import me.inao.discordbot.commands.CommandParser;
 import me.inao.discordbot.exception.NoSuchServerException;
 import me.inao.discordbot.exception.NoSuchServerTextChannelException;
 import me.inao.discordbot.exception.NoSuchUserException;
 import me.inao.discordbot.ifaces.ICommand;
 import me.inao.discordbot.ifaces.IListener;
+import me.inao.discordbot.ifaces.IParameter;
 import org.javacord.api.entity.permission.Role;
 import org.javacord.api.event.message.MessageCreateEvent;
 import org.javacord.api.listener.message.MessageCreateListener;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Timer;
@@ -52,6 +55,15 @@ public class MessageEvent implements MessageCreateListener, IListener {
 			}
 		}
 		if (!e.getMessageContent().isEmpty() && e.getMessage().getContent().startsWith(String.valueOf(instance.getConfig().getPrefix()))) {
+			CommandParser parser = new CommandParser();
+			if(parser.getMap() == null){
+				parser.setApi(this.instance.getApi());
+				parser.setMap(instance.getLoader().loadParams("me.inao.discordbot.commands.params"));
+			}
+			String[] parsed = parser.getParsedCommand(e.getMessageContent());
+			List<IParameter> parameterList = parser.getParsedValues(parsed);
+			System.out.println(parameterList);
+
 			String cmd = e.getMessageContent().split(" ")[0].substring(1);
 			String[] args = (e.getMessageContent().length() <= cmd.length() + 2) ? new String[0] : e.getMessageContent().substring(cmd.length() + 2).split(" ");
 

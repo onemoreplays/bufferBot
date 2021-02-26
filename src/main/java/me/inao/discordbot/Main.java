@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.vdurmont.emoji.EmojiParser;
 import lombok.Getter;
 import lombok.Setter;
-import me.inao.discordbot.buffer.SkidBuffer;
+import me.inao.discordbot.ifaces.Permissionable;
 import me.inao.discordbot.objects.Config;
 import me.inao.discordbot.objects.Countgame;
 import me.inao.discordbot.server.Server;
@@ -21,6 +21,7 @@ import org.javacord.api.entity.activity.ActivityType;
 import org.javacord.api.entity.user.UserStatus;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 
 @Getter
@@ -30,12 +31,12 @@ public class Main {
     @Setter
     private Countgame countgame = null;
     private final SQLite sqlite = new SQLite();
-    @Setter
-    private SkidBuffer skidBuffer = new SkidBuffer(this);
     private final Logger logger = LogManager.getLogger("me.inao.discordbot");
     private final boolean debug = true;
     @Getter
     Loader loader;
+    @Getter
+    Permissionable permissionable = new Permissionable(this);
 
     private final UserStatus[] status = {UserStatus.ONLINE, UserStatus.IDLE, UserStatus.DO_NOT_DISTURB, UserStatus.INVISIBLE};
     public static void main(String[] args){
@@ -66,7 +67,19 @@ public class Main {
     }
     public void loadConfig(){
         Gson gson = new Gson();
-        try (BufferedReader reader = new BufferedReader(new FileReader("config.json"))){
+        String[] files = {"config.local.json", "config.json"};
+        try {
+            BufferedReader reader = null;
+            for (String file : files){
+                File f = new File(file);
+                if(f.exists()){
+                    reader = new BufferedReader(new FileReader(f.getName()));
+                    break;
+                }
+            }
+            if(reader == null){
+                System.exit(-2);
+            }
             config = gson.fromJson(reader, Config.class);
         }catch (Exception e){
             new ExceptionCatcher(e);

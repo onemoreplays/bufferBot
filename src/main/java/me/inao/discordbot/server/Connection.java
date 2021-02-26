@@ -31,6 +31,7 @@ public class Connection extends Thread{
                 writer.println(new String(Base64.getEncoder().encode(encryption.getPubKey().getEncoded())));
                 String ret = reader.readLine();
                 this.encryption.setReceiverPublicKey(Base64.getDecoder().decode(ret));
+                System.out.println(encryption.encrypt("test"));
                 return;
             }
 

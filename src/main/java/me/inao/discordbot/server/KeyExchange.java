@@ -51,7 +51,7 @@ public class KeyExchange {
             PublicKey key = factory.generatePublic(new X509EncodedKeySpec(publickey));
             keyAgreement.doPhase(key, true);
             sharedSecret = keyAgreement.generateSecret();
-            System.out.println(encrypt("test"));
+            System.out.println(new String(Base64.getEncoder().encode(generateKey().getEncoded())));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -74,7 +74,6 @@ public class KeyExchange {
     }
     private Key generateKey() {
         try{
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
             return new SecretKeySpec(Hashing.sha256().hashBytes(this.sharedSecret).asBytes(), ALG);
         }catch (Exception e){
             e.printStackTrace();

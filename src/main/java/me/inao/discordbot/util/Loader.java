@@ -5,15 +5,14 @@ import lombok.RequiredArgsConstructor;
 import me.inao.discordbot.Main;
 import me.inao.discordbot.ifaces.ICommand;
 import me.inao.discordbot.ifaces.IListener;
+import me.inao.discordbot.ifaces.IParameter;
 import org.apache.logging.log4j.Level;
 import org.javacord.api.DiscordApiBuilder;
 import org.javacord.api.listener.GloballyAttachableListener;
 import org.reflections.Reflections;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @RequiredArgsConstructor
 public class Loader {
@@ -39,5 +38,20 @@ public class Loader {
                 new Logger(main, true, false, "Loaded command", "Loaded command: " + command.getSimpleName(), Level.DEBUG);
             }
         }
+    }
+    public HashMap<List<String>, IParameter> loadParams(String prefix){
+        HashMap<List<String>, IParameter> map = new HashMap<>();
+        Reflections reflections = new Reflections(prefix);
+        Set<Class<? extends IParameter>> classes = reflections.getSubTypesOf(IParameter.class);
+
+        for (Class<? extends IParameter> param : classes){
+           try{
+               IParameter instance = param.getDeclaredConstructor().newInstance();
+               map.put(Arrays.asList(instance.getIdentifiers()), instance);
+           }catch (Exception e){
+               e.printStackTrace();
+           }
+        }
+        return map;
     }
 }
