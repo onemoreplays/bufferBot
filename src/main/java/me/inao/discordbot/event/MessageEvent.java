@@ -59,22 +59,28 @@ public class MessageEvent implements MessageCreateListener, IListener {
 			if(parser.getMap() == null){
 				parser.setApi(this.instance.getApi());
 				parser.setMap(instance.getLoader().loadParams("me.inao.discordbot.commands.params"));
+				parser.setCommandPrefix(String.valueOf(instance.getConfig().getPrefix()));
 			}
 			String[] parsed = parser.getParsedCommand(e.getMessageContent());
 			List<IParameter> parameterList = parser.getParsedValues(parsed);
-			System.out.println(parameterList);
 
-			String cmd = e.getMessageContent().split(" ")[0].substring(1);
-			String[] args = (e.getMessageContent().length() <= cmd.length() + 2) ? new String[0] : e.getMessageContent().substring(cmd.length() + 2).split(" ");
+			String cmd = "";
+			for(String parse : parsed){
+				if(parser.checkForCommandPair(parse)){
+					cmd = parse;
+					break;
+				}
+			}
 
+			String finalCmd = cmd.replace(String.valueOf(instance.getConfig().getPrefix()), "");
 			Optional<ICommand> command = instance.getLoader().getLoadedCommands().entrySet()
 					.stream()
-					.filter(entry -> cmd.equalsIgnoreCase(entry.getKey()))
+					.filter(entry -> finalCmd.equalsIgnoreCase(entry.getKey()))
 					.map(Map.Entry::getValue)
 					.findAny();
 
 			if(command.isPresent()) {
-				command.get().onCommand(instance, e.getMessage(), args);
+				command.get().onCommand(instance, e.getMessage(), parameterList);
 			} else {
 				e.getChannel().sendMessage("Unknown command!");
 			}

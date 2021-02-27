@@ -7,3 +7,4 @@ target/
 /src/main/java/me/inao/discordbot/buffer/SkidBuffer.java
 /generated/log/
 config.local.json
+/build/

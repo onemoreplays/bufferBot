@@ -20,6 +20,7 @@ public class UserParam implements IParameter {
      */
     @Override
     public void onParse(DiscordApi api, String value) {
+        System.out.println(value);
         String[] values = value.split("[,:;\\-_/\\s]");
         for (String val : values){
             String id = parseIdFromMention(val);

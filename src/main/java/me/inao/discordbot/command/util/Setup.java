@@ -3,7 +3,7 @@ package me.inao.discordbot.command.util;
 import com.google.gson.JsonObject;
 import me.inao.discordbot.Main;
 import me.inao.discordbot.ifaces.ICommand;
-import me.inao.discordbot.util.MessageSender;
+import me.inao.discordbot.ifaces.IParameter;
 import org.javacord.api.entity.message.Message;
 import org.javacord.api.entity.permission.Permissions;
 import org.javacord.api.entity.permission.PermissionsBuilder;
@@ -11,24 +11,35 @@ import org.javacord.api.entity.permission.RoleBuilder;
 import org.javacord.api.entity.server.Server;
 
 import java.awt.*;
+import java.util.List;
 
 public class Setup implements ICommand {
     Server server;
-    @Override
     public void onCommand(Main instance, Message message, String[] args) {
-        message.getServer().ifPresent(server->{
-            this.server = server;
-        });
-        if(!instance.getPermissionable().hasPermission(message, this.getClass()))
-            new MessageSender("No Permissions", instance.getConfig().getMessage("generic", "no_perms"), Color.RED, message.getChannel());
-        //this.setupGroups(instance.getConfig().getSetup().get(0).getAsJsonObject("groups"));
-        this.setupCategories(instance.getConfig().getSetup().get(0).getAsJsonObject("categories"));
+//        message.getServer().ifPresent(server->{
+//            this.server = server;
+//        });
+//        if(!instance.getPermissionable().hasPermission(message, this.getClass()))
+//            new MessageSender("No Permissions", instance.getConfig().getMessage("generic", "no_perms"), Color.RED, message.getChannel());
+//        //this.setupGroups(instance.getConfig().getSetup().get(0).getAsJsonObject("groups"));
+//        this.setupCategories(instance.getConfig().getSetup().get(0).getAsJsonObject("categories"));
+    }
+
+    @Override
+    public void onCommand(Main instance, Message message, List<IParameter> args) {
+
     }
 
     @Override
     public String getUsage() {
         return null;
     }
+
+    @Override
+    public Class<? extends IParameter>[] requiredParameters() {
+        return new Class[0];
+    }
+
     private void setupGroups(JsonObject groups){
         groups.entrySet().forEach(stringJsonElementEntry -> {
             JsonObject json = stringJsonElementEntry.getValue().getAsJsonObject();
@@ -49,11 +60,9 @@ public class Setup implements ICommand {
         });
     }
     private void setupCategories(JsonObject categories){
-        categories.entrySet().forEach(categoryEntry -> {
-            this.server.createChannelCategoryBuilder()
-                    .setName(this.capitalize(categoryEntry.getKey()))
-                    .create();
-        });
+        categories.entrySet().forEach(categoryEntry -> this.server.createChannelCategoryBuilder()
+                .setName(this.capitalize(categoryEntry.getKey()))
+                .create());
     }
 
     private String capitalize(String str)
