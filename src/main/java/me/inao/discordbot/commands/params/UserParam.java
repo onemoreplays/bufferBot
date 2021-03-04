@@ -39,7 +39,7 @@ public class UserParam implements IParameter {
         if(value.matches(DiscordRegexPattern.USER_MENTION.pattern())){
             Matcher matcher = DiscordRegexPattern.USER_MENTION.matcher(value);
             matcher.find();
-            return matcher.group("id");
+            val = matcher.group("id");
         }
         return val;
     }
