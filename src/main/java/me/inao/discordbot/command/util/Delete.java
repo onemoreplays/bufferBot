@@ -1,24 +1,24 @@
 package me.inao.discordbot.command.util;
 
 import me.inao.discordbot.Main;
+import me.inao.discordbot.annotation.Permission;
+import me.inao.discordbot.commands.params.CountParam;
 import me.inao.discordbot.ifaces.ICommand;
 import me.inao.discordbot.ifaces.IParameter;
+import me.inao.discordbot.util.ParamsUtil;
 import org.javacord.api.entity.message.Message;
+import org.javacord.api.entity.message.MessageSet;
 
 import java.util.List;
 
 public class Delete implements ICommand {
     @Override
+    @Permission
     public void onCommand(Main instance, Message message, List<IParameter> args) {
-//        if(!instance.getPermissionable().hasPermission(message, this.getClass())){
-//            new MessageSender("No Permissions", instance.getConfig().getMessage("generic", "no_perms"), Color.RED, message.getChannel());
-//            return;
-//        }
-//        if(args == null || args.size() < 1){
-//            new MessageSender("Not enough arguments", instance.getConfig().getMessage("generic", "no_args"), Color.RED, message.getChannel());
-//            return;
-//        }
-//        message.getChannel().getMessages(Integer.parseInt(args[0]) + 1).thenAcceptAsync(MessageSet::deleteAll);
+        int count = ParamsUtil.filterObject(CountParam.class, args) != null ? ((CountParam) ParamsUtil.filterObject(CountParam.class, args).get(0)).getCount() : 0;
+        if(count > 0){
+            message.getChannel().getMessages(count + 1).thenAcceptAsync(MessageSet::deleteAll);
+        }
     }
 
     @Override
@@ -28,6 +28,6 @@ public class Delete implements ICommand {
 
     @Override
     public Class<? extends IParameter>[] requiredParameters() {
-        return new Class[0];
+        return new Class[]{ CountParam.class };
     }
 }

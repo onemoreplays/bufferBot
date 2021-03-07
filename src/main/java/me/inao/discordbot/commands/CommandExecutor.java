@@ -1,6 +1,7 @@
 package me.inao.discordbot.commands;
 
 import me.inao.discordbot.Main;
+import me.inao.discordbot.annotation.Permission;
 import me.inao.discordbot.ifaces.ICommand;
 import me.inao.discordbot.ifaces.IParameter;
 import org.javacord.api.entity.message.Message;
@@ -36,6 +37,9 @@ public class CommandExecutor {
                 .findAny();
 
         if(command.isPresent()) {
+            if(command.get().getClass().isAnnotationPresent(Permission.class)){
+                if (!instance.getPermissionable().checkPermission(message, command.get().getClass()))  return;
+            }
             command.get().onCommand(instance, message, parameterList);
         } else {
             message.getChannel().sendMessage("Unknown command!");

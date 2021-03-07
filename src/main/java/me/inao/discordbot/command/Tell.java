@@ -9,7 +9,6 @@ import java.util.List;
 
 public class Tell implements ICommand {
 
-
     @Override
     public void onCommand(Main instance, Message message, List<IParameter> args) {
 

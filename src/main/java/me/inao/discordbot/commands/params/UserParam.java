@@ -7,7 +7,6 @@ import org.javacord.api.entity.user.User;
 import org.javacord.api.util.DiscordRegexPattern;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 
@@ -20,7 +19,6 @@ public class UserParam implements IParameter {
      */
     @Override
     public void onParse(DiscordApi api, String value) {
-        System.out.println(value);
         String[] values = value.split("[,:;\\-_/\\s]");
         for (String val : values){
             String id = parseIdFromMention(val);
@@ -28,7 +26,6 @@ public class UserParam implements IParameter {
                 parsedUsers.add( api.getUserById(id).join());
             }
         }
-        System.out.println(Arrays.toString(parsedUsers.toArray()));
     }
 
     /**

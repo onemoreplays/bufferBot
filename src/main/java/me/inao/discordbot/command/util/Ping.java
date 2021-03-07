@@ -12,10 +12,6 @@ import java.util.List;
 public class Ping implements ICommand {
     @Override
     public void onCommand(Main instance, Message message, List<IParameter> args) {
-        if(!instance.getPermissionable().hasPermission(message, this.getClass())){
-            new MessageSender("No Permissions", instance.getConfig().getMessage("generic", "no_perms"), Color.RED, message.getChannel());
-            return;
-        }
         new MessageSender("pong", "pong", Color.RED, message.getChannel());
     }
 

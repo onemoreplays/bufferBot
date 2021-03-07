@@ -14,7 +14,6 @@ public class PermissionCheck{
         if(Integer.parseInt(main.getConfig().getCommandPerms(command)) == 0){
             return true;
         }
-//        System.out.println(server.hasPermission(user, Permissions.fromBitmask(Integer.parseInt(main.getConfig().getCommandPerms(command))).getAllowedPermission().iterator().next()));
         return server.hasPermission(user, Permissions.fromBitmask(Integer.parseInt(main.getConfig().getCommandPerms(command))).getAllowedPermission().iterator().next());
     }
 }

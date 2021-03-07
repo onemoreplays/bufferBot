@@ -7,6 +7,10 @@ import java.util.stream.Collectors;
 
 public class ParamsUtil {
     public static List<Object> filterObject(Class<? extends IParameter> cls, List<IParameter> items){
-        return items.stream().filter(cls::isInstance).map(cls::cast).collect(Collectors.toList());
+        List<Object> filter = items.stream().filter(cls::isInstance).map(cls::cast).collect(Collectors.toList());
+        if(filter.size() < 1){
+            return null;
+        }
+        return filter;
     }
 }

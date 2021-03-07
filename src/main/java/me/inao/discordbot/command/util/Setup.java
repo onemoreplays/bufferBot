@@ -2,6 +2,7 @@ package me.inao.discordbot.command.util;
 
 import com.google.gson.JsonObject;
 import me.inao.discordbot.Main;
+import me.inao.discordbot.annotation.Permission;
 import me.inao.discordbot.ifaces.ICommand;
 import me.inao.discordbot.ifaces.IParameter;
 import org.javacord.api.entity.message.Message;
@@ -15,6 +16,7 @@ import java.util.List;
 
 public class Setup implements ICommand {
     Server server;
+    @Permission
     public void onCommand(Main instance, Message message, String[] args) {
 //        message.getServer().ifPresent(server->{
 //            this.server = server;

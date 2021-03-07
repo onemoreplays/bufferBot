@@ -3,17 +3,11 @@ package me.inao.discordbot.event;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import me.inao.discordbot.Main;
-import me.inao.discordbot.buffer.UnmuteBuffer;
 import me.inao.discordbot.commands.CommandExecutor;
-import me.inao.discordbot.exception.NoSuchServerException;
 import me.inao.discordbot.exception.NoSuchServerTextChannelException;
-import me.inao.discordbot.exception.NoSuchUserException;
 import me.inao.discordbot.ifaces.IListener;
-import org.javacord.api.entity.permission.Role;
 import org.javacord.api.event.message.MessageCreateEvent;
 import org.javacord.api.listener.message.MessageCreateListener;
-
-import java.util.Timer;
 
 @Getter
 @RequiredArgsConstructor
@@ -41,11 +35,11 @@ public class MessageEvent implements MessageCreateListener, IListener {
                 }
             }
             if (e.getMessage().getChannel().asServerTextChannel().orElseThrow(NoSuchServerTextChannelException::new).getName().equals(instance.getConfig().getCommandRoom("Count"))) {
-                if (instance.getConfig().isFeatureEnabled("antiLink")) {
-                    Role muteRole = e.getServer().orElseThrow(NoSuchServerException::new).getRolesByName(instance.getConfig().getFeatureData("tempMute")).get(0);
-                    e.getMessageAuthor().asUser().orElseThrow(NoSuchUserException::new).addRole(muteRole);
-                    new Timer().schedule(new UnmuteBuffer(e.getMessageAuthor().asUser().orElseThrow(NoSuchUserException::new), muteRole), (1000 * 60 * 60));
-                }
+//                if (instance.getConfig().isFeatureEnabled("antiLink")) {
+//                    Role muteRole = e.getServer().orElseThrow(NoSuchServerException::new).getRolesByName(instance.getConfig().getFeatureData("tempMute")).get(0);
+//                    e.getMessageAuthor().asUser().orElseThrow(NoSuchUserException::new).addRole(muteRole);
+//                    new Timer().schedule(new UnmuteBuffer(e.getMessageAuthor().asUser().orElseThrow(NoSuchUserException::new), muteRole), (1000 * 60 * 60));
+//                }
                 if (!(e.getMessageAuthor().canManageMessagesInTextChannel())) {
                     if (instance.getCountgame() == null) return;
                 }
