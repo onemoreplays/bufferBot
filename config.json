@@ -9,7 +9,7 @@
     },
     "channelLimit":{
       "enabled": true,
-      "data": "bot"
+      "data": "bot-commands"
     },
     "tempMute": {
       "enabled": true,
@@ -54,7 +54,7 @@
       "perms": 4
     },
     "Count": {
-      "enabled": true,
+      "enabled": false,
       "channelName": "countgame",
       "perms": 16
     },
@@ -70,17 +70,9 @@
       "enabled": true,
       "perms": 8
     },
-    "Help": {
-      "enabled": true,
-      "perms": 0
-    },
     "Setup": {
       "enabled": true,
       "perms": 8
-    },
-    "Skid": {
-      "enabled": true,
-      "perms": 0
     },
     "Tell": {
       "enabled": false,
@@ -88,7 +80,7 @@
     },
     "Test": {
       "enabled": true,
-      "perms": 0
+      "perms": 4
     },
     "ServerToken": {
       "enabled": false,
@@ -104,8 +96,6 @@
   "server": [{
     "enabled": true,
     "port": 1337,
-    "aesKey": "339FUHjFxL0Co5AQw7ZHuVYFCftbTIzaOLhp0e/44VA=",
-    "aesIv": "Sg4s64v6K+yLvFxYdrqycQ==",
     "tokens": "Nnu2JrvXrRqAi89LHqkWHb5piVNytmgVRJvjPpD42Qi8qGbpQVmPxLEyJG6SkXMndSGeySMZuagrSSdhGp8QP5ig2HeCubigANhBL6fEuGtcuU;"
   }],
   "messages": [{

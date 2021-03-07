@@ -39,17 +39,19 @@ public class Main {
     Permissionable permissionable = new Permissionable(this);
 
     private final UserStatus[] status = {UserStatus.ONLINE, UserStatus.IDLE, UserStatus.DO_NOT_DISTURB, UserStatus.INVISIBLE};
-    public static void main(String[] args){
+
+    public static void main(String[] args) {
         new Main().starter();
     }
-    public void starter(){
+
+    public void starter() {
         loadConfig();
         DiscordApiBuilder apiBuilder = new DiscordApiBuilder().setToken(config.getApiKey());
         loader = new Loader(this, apiBuilder);
-        try{
+        try {
             loader.loadListeners("me.inao.discordbot.event");
             loader.loadCommands("me.inao.discordbot.command");
-        }catch (Exception e){
+        } catch (Exception e) {
             new ExceptionCatcher(e);
             new me.inao.discordbot.util.Logger(this, true, false, "Loading problem", "Cannot load bot (Event/Command). Shutting down!", Level.FATAL);
             System.exit(0);
@@ -63,23 +65,24 @@ public class Main {
         new me.inao.discordbot.util.Logger(this, true, true, "Bot start", "Loaded. Invite: " + api.createBotInvite().replace("permissions=0", "permissions=8"), Level.INFO);
         Runtime.getRuntime().addShutdownHook(new ShutdownHook(this));
     }
-    public void loadConfig(){
+
+    public void loadConfig() {
         Gson gson = new Gson();
         String[] files = {"config.local.json", "config.json"};
         try {
             BufferedReader reader = null;
-            for (String file : files){
+            for (String file : files) {
                 File f = new File(file);
-                if(f.exists()){
+                if (f.exists()) {
                     reader = new BufferedReader(new FileReader(f.getName()));
                     break;
                 }
             }
-            if(reader == null){
+            if (reader == null) {
                 System.exit(-2);
             }
             config = gson.fromJson(reader, Config.class);
-        }catch (Exception e){
+        } catch (Exception e) {
             new ExceptionCatcher(e);
         }
     }

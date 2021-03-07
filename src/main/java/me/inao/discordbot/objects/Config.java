@@ -50,10 +50,8 @@ public class Config {
             for (JsonObject command : commands){
                 return command.getAsJsonObject(name).get("enabled").getAsBoolean();
             }
-        }catch (Exception e){
-            System.out.println("Command not found in config.json :(");
-        }
-        return false;
+        }catch (Exception ignored){ }
+        return true;
     }
 
     public String getCommandMessage(String name){
@@ -113,6 +111,17 @@ public class Config {
         }catch (Exception e){
             System.out.println(name);
             System.out.println("Feature not found in config :(");
+        }
+        return null;
+    }
+    public String getFeatureChannel(String name){
+        try{
+            for (JsonObject object : features){
+                return object.getAsJsonObject(name).get("room").getAsString();
+            }
+        }catch (Exception e) {
+            System.out.println(name);
+            System.out.println("No room set :(");
         }
         return null;
     }

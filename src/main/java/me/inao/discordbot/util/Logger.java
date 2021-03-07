@@ -39,7 +39,7 @@ public class Logger {
                     .setDescription(value)
                     .setColor(color)
                     .setFooter("Level: " + level.name() + " | At: " + new SimpleDateFormat("HH:mm:ss dd/MM/yyyy").format(new Date()))
-            ).send(instance.getApi().getChannelsByName(instance.getConfig().getFeatureData("Logger")).iterator().next().asServerTextChannel().orElseThrow(NoSuchServerTextChannelException::new));
+            ).send(instance.getApi().getChannelsByName(instance.getConfig().getFeatureChannel("Logger")).iterator().next().asServerTextChannel().orElseThrow(NoSuchServerTextChannelException::new));
 
         }
     }
