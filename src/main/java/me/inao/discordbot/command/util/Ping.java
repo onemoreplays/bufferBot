@@ -10,9 +10,9 @@ import org.javacord.api.entity.message.Message;
 import java.awt.*;
 import java.util.List;
 
+@Permission
 public class Ping implements ICommand {
     @Override
-    @Permission
     public void onCommand(Main instance, Message message, List<IParameter> args) {
         new MessageSender("pong", "pong", Color.RED, message.getChannel());
     }

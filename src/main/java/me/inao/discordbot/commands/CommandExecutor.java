@@ -11,6 +11,10 @@ import java.util.Map;
 import java.util.Optional;
 
 public class CommandExecutor {
+    /**
+     * Command execution.
+     * Using Reflection API with parameter parsing (automatically ;) )
+     */
     public void execute(Message message, Main instance){
         CommandParser parser = new CommandParser();
         if(parser.getMap() == null){

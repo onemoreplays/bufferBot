@@ -11,9 +11,9 @@ import org.javacord.api.entity.message.MessageSet;
 
 import java.util.List;
 
+@Permission
 public class Delete implements ICommand {
     @Override
-    @Permission
     public void onCommand(Main instance, Message message, List<IParameter> args) {
         int count = ParamsUtil.filterObject(CountParam.class, args) != null ? ((CountParam) ParamsUtil.filterObject(CountParam.class, args).get(0)).getCount() : 0;
         if(count > 0){

@@ -7,11 +7,10 @@ import me.inao.discordbot.ifaces.IParameter;
 import org.javacord.api.entity.message.Message;
 
 import java.util.List;
-
+@Permission
 public class Count implements ICommand {
 
     @Override
-    @Permission
     public void onCommand(Main instance, Message message, List<IParameter> args) {
 //        if(!instance.getPermissionable().hasPermission(message, this.getClass())){
 //            new MessageSender("No Permissions", instance.getConfig().getMessage("generic", "no_perms"), Color.RED, message.getChannel());

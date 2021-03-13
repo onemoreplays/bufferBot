@@ -8,10 +8,10 @@ import org.javacord.api.entity.message.Message;
 
 import java.util.List;
 
+@Permission
 public class ServerToken implements ICommand{
 
     @Override
-    @Permission
     public void onCommand(Main instance, Message message, List<IParameter> args) {
         if(!(Boolean.parseBoolean(instance.getConfig().getServerProperty("enabled")))){
             System.out.println("here");

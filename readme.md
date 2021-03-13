@@ -38,3 +38,7 @@ my biggest concern so please, if you find anything wrong or funny, just report i
 
 ### Want more info?
 Right now, I'm working on documentation for this bot. It might just and simply take time.
+
+### Support
+If you would like to support my work, you can do so here: <https://commerce.coinbase.com/checkout/0d99044f-376d-4bd8-a343-cb7c161e8156>.
+Thank you ♥

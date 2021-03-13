@@ -1,6 +1,7 @@
-package me.inao.discordbot.command.punishment;
+package me.inao.discordbot.command;
 
 import me.inao.discordbot.Main;
+import me.inao.discordbot.annotation.Permission;
 import me.inao.discordbot.commands.params.SilentParam;
 import me.inao.discordbot.commands.params.UserParam;
 import me.inao.discordbot.exception.NoSuchServerException;
@@ -15,6 +16,7 @@ import org.javacord.api.entity.user.User;
 import java.awt.*;
 import java.util.List;
 
+@Permission
 public class Ban implements ICommand {
     @Override
     public void onCommand(Main instance, Message message, List<IParameter> args) {

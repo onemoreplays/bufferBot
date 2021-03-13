@@ -14,9 +14,9 @@ import org.javacord.api.entity.server.Server;
 import java.awt.*;
 import java.util.List;
 
+@Permission
 public class Setup implements ICommand {
     Server server;
-    @Permission
     public void onCommand(Main instance, Message message, String[] args) {
 //        message.getServer().ifPresent(server->{
 //            this.server = server;
