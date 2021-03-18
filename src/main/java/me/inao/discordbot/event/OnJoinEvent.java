@@ -23,14 +23,14 @@ public class OnJoinEvent implements ServerMemberJoinListener, IListener {
     @Override
     public void onServerMemberJoin(ServerMemberJoinEvent e) {
         if(main.getConfig().isFeatureEnabled("joinMessage")){
-            new MessageSender(e.getUser().getDiscriminatedName() + " has joined", main.getConfig().getMessage("welcome", "success").replace("%_user_%", e.getUser().getDiscriminatedName()), Color.GREEN, e.getServer().getChannelsByName(main.getConfig().getFeatureData("joinMessage")).get(0).asServerTextChannel().orElseThrow(NoSuchServerTextChannelException::new));
+            new MessageSender(e.getUser().getDiscriminatedName() + " has joined", main.getConfig().getFeatureData("joinMessage").replace("%_user_%", e.getUser().getDiscriminatedName()), Color.GREEN, e.getServer().getChannelsByName(main.getConfig().getFeatureChannel("joinMessage")).get(0).asServerTextChannel().orElseThrow(NoSuchServerTextChannelException::new));
         }
-        if(main.getConfig().isFeatureEnabled("captchaSystem")){
-            e.getUser().addRole(e.getServer().getRolesByName(main.getConfig().getFeatureData("captchaSystem").split(";")[1]).get(0));
-
-        }else{
-            e.getUser().addRole(e.getServer().getRolesByName(main.getConfig().getFeatureData("captchaSystem").split(";")[2]).get(0));
-        }
+//        if(main.getConfig().isFeatureEnabled("captchaSystem")){
+//            e.getUser().addRole(e.getServer().getRolesByName(main.getConfig().getFeatureData("captchaSystem").split(";")[1]).get(0));
+//
+//        }else{
+//            e.getUser().addRole(e.getServer().getRolesByName(main.getConfig().getFeatureData("captchaSystem").split(";")[2]).get(0));
+//        }
         new Logger(main, false, true, "Join", "User " + e.getUser().getDiscriminatedName() + " has joined", Level.INFO);
     }
 }

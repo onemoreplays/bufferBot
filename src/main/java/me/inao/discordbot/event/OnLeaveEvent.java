@@ -37,10 +37,10 @@ public class OnLeaveEvent implements ServerMemberLeaveListener, IListener {
             });
         }
         if(main.getConfig().isFeatureEnabled("leaveMessage")){
-            new MessageSender(e.getUser().getDiscriminatedName() + " has left us :(",
-                    main.getConfig().getMessage("leave", "success").replace("%_user_%", e.getUser().getDiscriminatedName()),
+            new MessageSender(e.getUser().getDiscriminatedName() + " has left",
+                    main.getConfig().getFeatureData("leaveMessage").replace("%_user_%", e.getUser().getDiscriminatedName()),
                     Color.RED,
-                    e.getServer().getChannelsByName(main.getConfig().getFeatureData("leaveMessage")).get(0).asServerTextChannel().orElseThrow(NoSuchServerTextChannelException::new)
+                    e.getServer().getChannelsByName(main.getConfig().getFeatureChannel("leaveMessage")).get(0).asServerTextChannel().orElseThrow(NoSuchServerTextChannelException::new)
             );
             new Logger(main, false, true, "Leave", "User " + e.getUser().getDiscriminatedName() + " has left", Level.INFO);
         }

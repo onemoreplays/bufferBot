@@ -48,7 +48,7 @@ public class Main {
     public void starter() {
         loadConfig();
         DiscordApiBuilder apiBuilder = new DiscordApiBuilder().setToken(config.getApiKey());
-        apiBuilder.setIntents(Intent.GUILDS, Intent.GUILD_BANS, Intent.GUILD_MESSAGE_REACTIONS, Intent.GUILD_MESSAGES);
+        apiBuilder.setIntents(Intent.GUILDS, Intent.GUILD_BANS, Intent.GUILD_MESSAGE_REACTIONS, Intent.GUILD_MESSAGES, Intent.GUILD_MEMBERS);
         loader = new Loader(this, apiBuilder);
         try {
             loader.loadListeners("me.inao.discordbot.event");
