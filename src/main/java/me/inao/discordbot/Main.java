@@ -18,6 +18,7 @@ import org.apache.logging.log4j.Logger;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 import org.javacord.api.entity.activity.ActivityType;
+import org.javacord.api.entity.intent.Intent;
 import org.javacord.api.entity.user.UserStatus;
 
 import java.io.BufferedReader;
@@ -47,6 +48,7 @@ public class Main {
     public void starter() {
         loadConfig();
         DiscordApiBuilder apiBuilder = new DiscordApiBuilder().setToken(config.getApiKey());
+        apiBuilder.setIntents(Intent.GUILDS, Intent.GUILD_BANS, Intent.GUILD_MESSAGE_REACTIONS, Intent.GUILD_MESSAGES);
         loader = new Loader(this, apiBuilder);
         try {
             loader.loadListeners("me.inao.discordbot.event");

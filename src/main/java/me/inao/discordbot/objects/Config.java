@@ -17,7 +17,7 @@ public class Config {
     @SerializedName("prefix")
     @Expose
     @Getter
-    private char prefix;
+    private String prefix;
 
     @SerializedName("botState")
     @Expose
