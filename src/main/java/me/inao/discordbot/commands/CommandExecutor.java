@@ -4,8 +4,11 @@ import me.inao.discordbot.Main;
 import me.inao.discordbot.annotation.Permission;
 import me.inao.discordbot.ifaces.ICommand;
 import me.inao.discordbot.ifaces.IParameter;
+import me.inao.discordbot.util.MessageSender;
 import org.javacord.api.entity.message.Message;
 
+import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -43,6 +46,15 @@ public class CommandExecutor {
         if(command.isPresent()) {
             if(command.get().getClass().isAnnotationPresent(Permission.class)){
                 if (!instance.getPermissionable().checkPermission(message, command.get().getClass()))  return;
+            }
+            List<Boolean> requiredAreProvided = new ArrayList<>();
+            for(Class<? extends IParameter> param : command.get().requiredParameters()){
+                if(parameterList.stream().anyMatch(param::isInstance)){
+                    requiredAreProvided.add(true);
+                }else{
+                    new MessageSender("Missing arguments", "There is/are an argument(s) missing.", Color.RED, message.getChannel());
+                    break;
+                }
             }
             command.get().onCommand(instance, message, parameterList);
         } else {

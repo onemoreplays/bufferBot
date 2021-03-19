@@ -1,6 +1,6 @@
 {
   "apiKey": "",
-  "prefix": "!",
+  "prefix": "!~",
   "botState": 2,
   "features": [{
     "blacklistSystem": {
@@ -22,15 +22,15 @@
     },
     "joinMessage": {
       "enabled": true,
-      "data": "Welcome %_user_% to this server! :)",
       "room": "welcome",
-      "category": "useless"
+      "category": "useless",
+      "message": "Welcome %_user_% to this server! :)"
     },
     "leaveMessage": {
       "enabled": true,
-      "data": "Bye %_user_%. Have a nice rest of your life and so on. :)",
       "room": "welcome",
-      "category": "useless"
+      "category": "useless",
+      "message":  "Bye %_user_%. Have a nice rest of your life and so on. :)"
     },
     "Logger": {
       "enabled": true,
@@ -99,8 +99,22 @@
     }
   }],
   "server": [{
-    "enabled": false,
+    "enabled": true,
     "port": 1337,
     "tokens": "Nnu2JrvXrRqAi89LHqkWHb5piVNytmgVRJvjPpD42Qi8qGbpQVmPxLEyJG6SkXMndSGeySMZuagrSSdhGp8QP5ig2HeCubigANhBL6fEuGtcuU;"
+  }],
+  "messages": [{
+    "generic": {
+      "no_perms": "Sorry, you don't have permissions for that :sad:",
+      "no_args": "You haven't provided enough args :sad:"
+    },
+    "captcha": {
+      "welcome": "Hello and welcome on this server. To get access here, you will have to solve Captcha. Visit this link to do that: %_link_% .\nWhen you will be done, just react with %_emoji_%",
+      "error": "Invalid code :(",
+      "success": "Solved"
+    },
+    "ban": {
+      "success": "User %_user_% has been banned from our server."
+    }
   }]
 }
