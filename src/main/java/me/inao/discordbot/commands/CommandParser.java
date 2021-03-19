@@ -37,8 +37,7 @@ public class CommandParser {
     }
 
     public String[] getParsedCommand(String message){
-        String[] parsedCommand = message.split("\\s-");
-        return parsedCommand;
+        return message.split("\\s-");
     }
 
     public boolean checkForParamPair(String splitMessage){
