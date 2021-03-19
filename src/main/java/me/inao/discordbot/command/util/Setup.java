@@ -33,11 +33,6 @@ public class Setup implements ICommand {
     }
 
     @Override
-    public String getUsage() {
-        return null;
-    }
-
-    @Override
     public Class<? extends IParameter>[] requiredParameters() {
         return new Class[0];
     }

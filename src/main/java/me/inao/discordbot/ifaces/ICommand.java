@@ -8,6 +8,5 @@ import java.util.List;
 public interface ICommand {
 
     void onCommand(Main instance, Message message, List<IParameter> args);
-    String getUsage();
     Class<? extends IParameter>[] requiredParameters();
 }

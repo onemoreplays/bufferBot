@@ -33,15 +33,9 @@ public class Ban implements ICommand {
     }
 
     @Override
-    public String getUsage() {
-        return "<users (mentions)> (-s (silent?))";
-    }
-
-    @Override
     public Class<? extends IParameter>[] requiredParameters() {
         return new Class[]{
-                UserParam.class,
-                SilentParam.class
+                UserParam.class
         };
     }
 }

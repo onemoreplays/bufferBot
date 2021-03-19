@@ -43,11 +43,6 @@ public class Count implements ICommand {
     }
 
     @Override
-    public String getUsage() {
-        return "<finish> (prev)";
-    }
-
-    @Override
     public Class<? extends IParameter>[] requiredParameters() {
         return new Class[0];
     }

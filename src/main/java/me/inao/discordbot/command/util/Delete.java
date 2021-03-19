@@ -22,11 +22,6 @@ public class Delete implements ICommand {
     }
 
     @Override
-    public String getUsage() {
-        return "<count>";
-    }
-
-    @Override
     public Class<? extends IParameter>[] requiredParameters() {
         return new Class[]{ CountParam.class };
     }

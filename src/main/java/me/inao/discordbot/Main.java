@@ -20,7 +20,6 @@ import org.javacord.api.DiscordApiBuilder;
 import org.javacord.api.entity.activity.ActivityType;
 import org.javacord.api.entity.intent.Intent;
 import org.javacord.api.entity.user.UserStatus;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
