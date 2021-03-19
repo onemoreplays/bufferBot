@@ -22,7 +22,6 @@ public class CommandParser {
     public List<IParameter> getParsedValues(String[] parts){
         List<IParameter> parameters = new ArrayList<>();
         if(map == null) return null;
-        System.out.println(Arrays.toString(parts));
         for (String part : parts){
             if(checkForCommandPair(part)) continue;
             String[] partSplit = part.split("\\s");
