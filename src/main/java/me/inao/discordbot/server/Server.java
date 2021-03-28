@@ -5,9 +5,11 @@ import lombok.RequiredArgsConstructor;
 import me.inao.discordbot.Main;
 import me.inao.discordbot.ifaces.IResponse;
 import me.inao.discordbot.util.ExceptionCatcher;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.reflections.Reflections;
 
 import java.net.ServerSocket;
+import java.security.Security;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -25,6 +27,7 @@ public class Server extends Thread {
         }
         if (!run) return;
         try {
+            Security.addProvider(new BouncyCastleProvider());
             Reflections refl = new Reflections("me.inao.discordbot.server.response");
             Set<Class<? extends IResponse>> classes = refl.getSubTypesOf(IResponse.class);
             actions = new HashMap<>(classes.size());

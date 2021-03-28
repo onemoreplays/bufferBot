@@ -10,15 +10,14 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Base64;
+import java.util.Date;
 
 @RequiredArgsConstructor
 public class Connection extends Thread{
     private final Main instance;
     private final Socket socket;
     private final Server server;
-    private boolean isSafe = false;
-    private KeyExchange encryption = null;
+    private Session session = null;
 
     @Override
     public void run(){
@@ -26,12 +25,14 @@ public class Connection extends Thread{
             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
 
-            if(!isSafe){
-                this.encryption = new KeyExchange();
-                writer.println(new String(Base64.getEncoder().encode(encryption.getPubKey().getEncoded())));
+            if(session == null || session.getValidity().after(new Date())){
+                this.session = new Session();
+//                writer.println(new String(Base64.getEncoder().encode(encryption.getPubKey().getEncoded())));
+                writer.println(session.getKeyExchange().encodeBase64(session.getKeyExchange().getPair().getPublic().getEncoded()));
                 String ret = reader.readLine();
-                this.encryption.setReceiverPublicKey(Base64.getDecoder().decode(ret));
-                System.out.println(encryption.encrypt("test"));
+//                this.session.getKeyExchange().setReceiverPublicKey(Base64.getDecoder().decode(ret));
+//                writer.println("test");
+//                System.out.println(session.getKeyExchange().encrypt("test"));
                 return;
             }
 
