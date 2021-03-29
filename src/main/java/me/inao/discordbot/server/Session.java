@@ -5,29 +5,21 @@ import lombok.Setter;
 
 import java.util.Date;
 
+@Getter
 public class Session {
     public Session(){
         this.keyExchange = new KeyExchange();
     }
-    @Getter
+
     @Setter
     private String identifier;
 
     @Setter
-    @Getter
-    private String key;
-
-    @Setter
-    @Getter
     private Date validity;
 
-    @Getter
     @Setter
     private String token;
-
-    @Getter
-    private byte[] sharedSecret;
-
-    @Getter
+    @Setter
+    private byte[] secret;
     private final KeyExchange keyExchange;
 }

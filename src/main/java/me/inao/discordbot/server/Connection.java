@@ -10,6 +10,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Arrays;
+import java.util.Base64;
 import java.util.Date;
 
 @RequiredArgsConstructor
@@ -27,10 +29,12 @@ public class Connection extends Thread{
 
             if(session == null || session.getValidity().after(new Date())){
                 this.session = new Session();
-//                writer.println(new String(Base64.getEncoder().encode(encryption.getPubKey().getEncoded())));
+                session.getKeyExchange().initKeys();
+                System.out.println(Arrays.toString(session.getKeyExchange().getPair().getPublic().getEncoded()));
                 writer.println(session.getKeyExchange().encodeBase64(session.getKeyExchange().getPair().getPublic().getEncoded()));
                 String ret = reader.readLine();
-//                this.session.getKeyExchange().setReceiverPublicKey(Base64.getDecoder().decode(ret));
+                session.setSecret(this.session.getKeyExchange().calculateKey(Base64.getDecoder().decode(ret)));
+                System.out.println(new String(Base64.getEncoder().encode(session.getSecret())));
 //                writer.println("test");
 //                System.out.println(session.getKeyExchange().encrypt("test"));
                 return;

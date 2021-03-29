@@ -6,7 +6,7 @@
 
     <properties>
         <build.version>1.0.0</build.version>
-        <build.package>me.inao.discordbot</build.package>
+        <build.package>me.inao.bot</build.package>
         <build.main>${build.package}.Main</build.main>
         <build.java.version>8</build.java.version>
     </properties>
