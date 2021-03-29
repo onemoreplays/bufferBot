@@ -5,12 +5,12 @@ import org.bouncycastle.jce.ECNamedCurveTable;
 import org.bouncycastle.jce.spec.ECParameterSpec;
 import org.bouncycastle.jce.spec.ECPrivateKeySpec;
 import org.bouncycastle.jce.spec.ECPublicKeySpec;
+import org.bouncycastle.util.encoders.Base64;
 
 import javax.crypto.KeyAgreement;
 import java.math.BigInteger;
 import java.security.*;
 import java.security.spec.ECGenParameterSpec;
-import java.util.Base64;
 
 public class KeyExchange {
     @Getter
@@ -75,6 +75,6 @@ public class KeyExchange {
     }
 
     public String encodeBase64(byte[] raw){
-        return new String(Base64.getEncoder().encode(raw));
+        return new String(Base64.encode(raw));
     }
 }
