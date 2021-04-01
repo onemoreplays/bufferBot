@@ -5,6 +5,9 @@ import lombok.RequiredArgsConstructor;
 import me.inao.discordbot.Main;
 import me.inao.discordbot.util.AES;
 import me.inao.discordbot.util.ExceptionCatcher;
+import me.inao.discordbot.util.Logger;
+import me.inao.discordbot.util.Stringy;
+import org.apache.logging.log4j.Level;
 import org.bouncycastle.jce.interfaces.ECPublicKey;
 
 import java.io.BufferedReader;
@@ -26,14 +29,14 @@ public class Connection extends Thread{
         try{
             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
-
             if(session == null || session.getValidity().after(new Date())){
                 this.session = new Session();
                 session.getKeyExchange().initKeys();
                 writer.println(session.getKeyExchange().encodeBase64(((ECPublicKey)session.getKeyExchange().getPair().getPublic()).getQ().getEncoded(true)));
                 String ret = reader.readLine();
                 session.setSecret(this.session.getKeyExchange().calculateKey(Base64.getDecoder().decode(ret)));
-                System.out.println(new String(Base64.getEncoder().encode(session.getSecret())));
+                new Logger(instance, true, true, "Remote API Connection", "New client has connected.", Level.INFO);
+                server.getSessions().put(Stringy.getRandomIdentifier(), session);
                 return;
             }
 

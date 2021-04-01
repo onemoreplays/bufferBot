@@ -18,7 +18,7 @@ public class KeyExchange {
     public void initKeys(){
         try{
             KeyPairGenerator generator = KeyPairGenerator.getInstance("ECDH", "BC");
-            generator.initialize(new ECGenParameterSpec("prime256v1"), new SecureRandom());
+            generator.initialize(new ECGenParameterSpec("secp256k1"), new SecureRandom());
             pair = generator.generateKeyPair();
         }catch(Exception e){
             pair = null;
@@ -27,7 +27,7 @@ public class KeyExchange {
     }
 
     public PublicKey getPubKeyFromBytes(byte[] raw){
-        ECParameterSpec paramsSpec = ECNamedCurveTable.getParameterSpec("prime256v1");
+        ECParameterSpec paramsSpec = ECNamedCurveTable.getParameterSpec("secp256k1");
         ECPublicKeySpec pubKeySpec = new ECPublicKeySpec(paramsSpec.getCurve().decodePoint(raw), paramsSpec);
         try{
             KeyFactory factory = KeyFactory.getInstance("ECDH", "BC");
@@ -39,7 +39,7 @@ public class KeyExchange {
     }
 
     public PrivateKey getPrivKeyFromBytes(byte[] raw){
-        ECParameterSpec paramsSpec = ECNamedCurveTable.getParameterSpec("prime256v1");
+        ECParameterSpec paramsSpec = ECNamedCurveTable.getParameterSpec("secp256k1");
         ECPrivateKeySpec privKeySpec = new ECPrivateKeySpec(new BigInteger(raw), paramsSpec);
         try{
             KeyFactory factory = KeyFactory.getInstance("ECDH", "BC");
