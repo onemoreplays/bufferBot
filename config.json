@@ -1,12 +1,11 @@
 {
   "apiKey": "",
-  "prefix": "!~",
+  "prefix": "!",
   "botState": 2,
   "features": [{
     "blacklistSystem": {
       "enabled": true,
-      "data": "permission denied",
-      "message": "Permission denied"
+      "data": "permission denied"
     },
     "channelLimit":{
       "enabled": true,
@@ -18,19 +17,20 @@
     },
     "captchaSystem": {
       "enabled": false,
-      "data": "www-data;www-data@buffer:~#;user@buffer:~#"
+      "data": "www-data;www-data@buffer:~#;user@buffer:~#",
+      "httpAuth": ""
     },
     "joinMessage": {
       "enabled": true,
+      "data": null,
       "room": "welcome",
-      "category": "useless",
-      "message": "Welcome %_user_% to this server! :)"
+      "category": "useless"
     },
     "leaveMessage": {
       "enabled": true,
+      "data": null,
       "room": "welcome",
-      "category": "useless",
-      "message":  "Bye %_user_%. Have a nice rest of your life and so on. :)"
+      "category": "useless"
     },
     "Logger": {
       "enabled": true,
@@ -67,6 +67,10 @@
       "enabled": true,
       "perms": 4
     },
+    "Kick": {
+      "enabled": true,
+      "perms": 2
+    },
     "Ping": {
       "enabled": true,
       "perms": 8
@@ -83,10 +87,6 @@
       "enabled": false,
       "perms": 8192
     },
-    "Test": {
-      "enabled": true,
-      "perms": 4
-    },
     "ServerToken": {
       "enabled": false,
       "perms": 8
@@ -101,7 +101,12 @@
   "server": [{
     "enabled": true,
     "port": 1337,
-    "tokens": "Nnu2JrvXrRqAi89LHqkWHb5piVNytmgVRJvjPpD42Qi8qGbpQVmPxLEyJG6SkXMndSGeySMZuagrSSdhGp8QP5ig2HeCubigANhBL6fEuGtcuU;"
+    "tokens": [{
+      "example": {
+        "perms": 0,
+        "name": "userExample"
+      }
+    }]
   }],
   "messages": [{
     "generic": {
@@ -112,6 +117,12 @@
       "welcome": "Hello and welcome on this server. To get access here, you will have to solve Captcha. Visit this link to do that: %_link_% .\nWhen you will be done, just react with %_emoji_%",
       "error": "Invalid code :(",
       "success": "Solved"
+    },
+    "welcome": {
+      "success": "Welcome to our server %_user_%."
+    },
+    "leave": {
+      "success": "Goodbye %_user_%"
     },
     "ban": {
       "success": "User %_user_% has been banned from our server."

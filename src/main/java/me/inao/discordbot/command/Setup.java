@@ -1,4 +1,4 @@
-package me.inao.discordbot.command.util;
+package me.inao.discordbot.command;
 
 import com.google.gson.JsonObject;
 import me.inao.discordbot.Main;

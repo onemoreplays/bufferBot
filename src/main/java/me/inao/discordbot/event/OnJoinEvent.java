@@ -27,7 +27,11 @@ public class OnJoinEvent implements ServerMemberJoinListener, IListener {
         }
 //        if(main.getConfig().isFeatureEnabled("captchaSystem")){
 //            e.getUser().addRole(e.getServer().getRolesByName(main.getConfig().getFeatureData("captchaSystem").split(";")[1]).get(0));
-//
+//            Captcha captcha = new Captcha();
+//            if(main.getConfig().getFeatureValue("captchaSystem", "httpAuth") != null){
+//                captcha.getArguments().put("auth", ((String)main.getConfig().getFeatureValue("captchaSystem", "httpAuth")));
+//            }
+//            captcha.getArguments().put("discordId", e.getUser().getIdAsString());
 //        }else{
 //            e.getUser().addRole(e.getServer().getRolesByName(main.getConfig().getFeatureData("captchaSystem").split(";")[2]).get(0));
 //        }
