@@ -12,6 +12,11 @@ import me.inao.discordbot.task.CaptchaTimerTask;
 import me.inao.discordbot.util.Logger;
 import me.inao.discordbot.util.MessageSender;
 import org.apache.logging.log4j.Level;
+import org.javacord.api.entity.channel.ServerTextChannel;
+import org.javacord.api.entity.permission.PermissionType;
+import org.javacord.api.entity.permission.PermissionsBuilder;
+import org.javacord.api.entity.server.Server;
+import org.javacord.api.entity.user.User;
 import org.javacord.api.event.server.member.ServerMemberJoinEvent;
 import org.javacord.api.listener.server.member.ServerMemberJoinListener;
 
@@ -41,7 +46,7 @@ public class OnJoinEvent implements ServerMemberJoinListener, IListener {
                 if (main.getConfig().getFeatureValue("captchaSystem", "httpAuth") != null) {
                     captcha.getArguments().put("auth", main.getConfig().getFeatureValue("captchaSystem", "httpAuth"));
                 }
-                captcha.getArguments().put("discordId", e.getUser().getIdAsString());
+                captcha.getArguments().put("discordId", new String[]{e.getUser().getIdAsString()});
             } else {
 
             }
@@ -57,6 +62,17 @@ public class OnJoinEvent implements ServerMemberJoinListener, IListener {
     private void setClearTask() {
         Timer timer = new Timer();
         long delay = (1000L * 60 * ((int) main.getConfig().getFeatureValue("captchaSystem", "userThresholdTime")));
-        timer.schedule(new CaptchaTimerTask(this), delay);
+        timer.scheduleAtFixedRate(new CaptchaTimerTask(this), 0, delay);
+    }
+
+    private ServerTextChannel createChannel(User user, Server server){
+        return server.createTextChannelBuilder()
+                .setTopic("Captcha channel for user")
+                .setCategory(server.getChannelCategoriesByName("captcha").get(0))
+                .addPermissionOverwrite(user, new PermissionsBuilder().setAllowed(PermissionType.READ_MESSAGES).build())
+                .addPermissionOverwrite(server.getRolesByName("captcha").get(0), new PermissionsBuilder().setDenied(PermissionType.READ_MESSAGES).build())
+                .addPermissionOverwrite(server.getRolesByName("@everyone").get(0), new PermissionsBuilder().setDenied(PermissionType.READ_MESSAGES).build())
+                .create()
+                .join();
     }
 }

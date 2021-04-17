@@ -11,7 +11,6 @@ import org.javacord.api.entity.message.Message;
 import org.jsoup.Jsoup;
 
 import java.awt.*;
-import java.util.HashMap;
 import java.util.List;
 
 @Permission
@@ -22,9 +21,11 @@ public class Ping implements ICommand {
         if(instance.getConfig().getFeatureValue("captchaSystem", "httpAuth") != null){
             captcha.getArguments().put("auth", instance.getConfig().getFeatureValue("captchaSystem", "httpAuth"));
         }
-        captcha.getArguments().put("discordId", String.join(";", new String[]{message.getUserAuthor().get().getIdAsString()}));
-        HashMap<String, String> map;
-        System.out.println(Jsoup.parse(new Driver(captcha).postRequestWithResponse()).text());
+        captcha.getArguments().put("discordId", new String[]{message.getUserAuthor().get().getIdAsString()});
+        String response = new Driver(captcha).postRequestWithResponse();
+        if(response != null){
+            System.out.println(Jsoup.parse(response).text());
+        }
         new MessageSender("pong", "pong", Color.RED, message.getChannel());
     }
 

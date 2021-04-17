@@ -14,6 +14,7 @@ public class CaptchaTimerTask extends TimerTask {
 
     @Override
     public void run() {
+
         event.setCaptchaBuffer(new CaptchaBuffer());
     }
 }
