@@ -4,24 +4,27 @@ import me.inao.discordbot.Main;
 import me.inao.discordbot.annotation.Permission;
 import me.inao.discordbot.ifaces.ICommand;
 import me.inao.discordbot.ifaces.IParameter;
-import me.inao.discordbot.request.http.Captcha;
 import me.inao.discordbot.request.http.Driver;
+import me.inao.discordbot.request.http.post.CaptchaCreatePostRequest;
 import me.inao.discordbot.util.MessageSender;
 import org.javacord.api.entity.message.Message;
+import org.jsoup.Jsoup;
 
 import java.awt.*;
+import java.util.HashMap;
 import java.util.List;
 
 @Permission
 public class Ping implements ICommand {
     @Override
     public void onCommand(Main instance, Message message, List<IParameter> args) {
-        Captcha captcha = new Captcha();
+        CaptchaCreatePostRequest captcha = new CaptchaCreatePostRequest();
         if(instance.getConfig().getFeatureValue("captchaSystem", "httpAuth") != null){
-            captcha.getArguments().put("auth", ((String)instance.getConfig().getFeatureValue("captchaSystem", "httpAuth")));
+            captcha.getArguments().put("auth", instance.getConfig().getFeatureValue("captchaSystem", "httpAuth"));
         }
-        captcha.getArguments().put("discordId", message.getUserAuthor().get().getIdAsString());
-        new Driver(captcha).postRequest();
+        captcha.getArguments().put("discordId", String.join(";", new String[]{message.getUserAuthor().get().getIdAsString()}));
+        HashMap<String, String> map;
+        System.out.println(Jsoup.parse(new Driver(captcha).postRequestWithResponse()).text());
         new MessageSender("pong", "pong", Color.RED, message.getChannel());
     }
 

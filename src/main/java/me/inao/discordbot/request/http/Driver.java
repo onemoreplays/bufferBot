@@ -5,6 +5,8 @@ import com.google.gson.GsonBuilder;
 import lombok.RequiredArgsConstructor;
 import me.inao.discordbot.ifaces.IHttpRequest;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -14,10 +16,10 @@ import java.nio.charset.StandardCharsets;
 public class Driver {
     private final IHttpRequest requestClass;
 
-    public boolean postRequest(){
-        try{
+    public String postRequestWithResponse() {
+        try {
             URL url = new URL(requestClass.getUrl());
-            HttpURLConnection conn = ((HttpURLConnection)url.openConnection());
+            HttpURLConnection conn = ((HttpURLConnection) url.openConnection());
             conn.setRequestMethod("POST");
             conn.setDoOutput(true);
             Gson gson = new GsonBuilder().create();
@@ -27,15 +29,23 @@ public class Driver {
             conn.connect();
             OutputStream out = conn.getOutputStream();
             out.write(json);
-            Thread.sleep(500);
             out.flush();
-//            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-//            System.out.println(reader.readLine());
+            String response = null;
+            if(conn.getResponseCode() == 200){
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                StringBuilder sb = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line);
+                }
+                response = sb.toString();
+            }
             conn.disconnect();
             out.close();
-        }catch(Exception e){
+            return response;
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        return false;
+        return null;
     }
 }
