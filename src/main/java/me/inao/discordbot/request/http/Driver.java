@@ -18,14 +18,13 @@ public class Driver {
 
     public String postRequestWithResponse() {
         try {
-            URL url = new URL(requestClass.getUrl());
-            HttpURLConnection conn = ((HttpURLConnection) url.openConnection());
-            conn.setRequestMethod("POST");
-            conn.setDoOutput(true);
+            HttpURLConnection conn = this.getHttpURLConnection(requestClass.getUrl());
+            if(conn == null){
+                return null;
+            }
             Gson gson = new GsonBuilder().create();
             byte[] json = gson.toJson(requestClass.getArguments()).getBytes(StandardCharsets.UTF_8);
             conn.setFixedLengthStreamingMode(json.length);
-            conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
             conn.connect();
             OutputStream out = conn.getOutputStream();
             out.write(json);
@@ -44,6 +43,42 @@ public class Driver {
             out.close();
             return response;
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public boolean postRequestWithoutResponse(){
+        try{
+            HttpURLConnection conn = this.getHttpURLConnection(requestClass.getUrl());
+            if(conn == null){
+                return false;
+            }
+            Gson gson = new GsonBuilder().create();
+            byte[] json = gson.toJson(requestClass.getArguments()).getBytes(StandardCharsets.UTF_8);
+            conn.setFixedLengthStreamingMode(json.length);
+            conn.connect();
+            OutputStream out = conn.getOutputStream();
+            out.write(json);
+            out.flush();
+            conn.disconnect();
+            out.close();
+            return true;
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private HttpURLConnection getHttpURLConnection(String url){
+        try{
+            URL urlInside = new URL(url);
+            HttpURLConnection conn = ((HttpURLConnection) urlInside.openConnection());
+            conn.setRequestMethod("POST");
+            conn.setDoOutput(true);
+            conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            return conn;
+        }catch(Exception e){
             e.printStackTrace();
         }
         return null;

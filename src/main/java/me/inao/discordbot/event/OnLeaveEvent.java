@@ -7,6 +7,7 @@ import me.inao.discordbot.ifaces.IListener;
 import me.inao.discordbot.util.Logger;
 import me.inao.discordbot.util.MessageSender;
 import org.apache.logging.log4j.Level;
+import org.javacord.api.entity.channel.ServerChannel;
 import org.javacord.api.event.server.member.ServerMemberLeaveEvent;
 import org.javacord.api.listener.server.member.ServerMemberLeaveListener;
 
@@ -18,6 +19,7 @@ public class OnLeaveEvent implements ServerMemberLeaveListener, IListener {
     @Override
     public void onServerMemberLeave(ServerMemberLeaveEvent e) {
         if(main.getConfig().isFeatureEnabled("leaveMessage")){
+            e.getServer().getChannelsByName("captcha-"+e.getUser().getIdAsString()).forEach(ServerChannel::delete);
             new MessageSender(e.getUser().getDiscriminatedName() + " has left",
                     main.getConfig().getMessage("leave", "success").replace("%_user_%", e.getUser().getDiscriminatedName()),
                     Color.RED,
