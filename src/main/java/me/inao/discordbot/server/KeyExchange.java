@@ -1,83 +1,80 @@
 package me.inao.discordbot.server;
 
-import com.google.common.hash.Hashing;
 import lombok.Getter;
+import org.bouncycastle.jce.ECNamedCurveTable;
+import org.bouncycastle.jce.spec.ECParameterSpec;
+import org.bouncycastle.jce.spec.ECPrivateKeySpec;
+import org.bouncycastle.jce.spec.ECPublicKeySpec;
+import org.bouncycastle.util.encoders.Base64;
 
-import javax.crypto.Cipher;
 import javax.crypto.KeyAgreement;
-import javax.crypto.spec.SecretKeySpec;
+import java.math.BigInteger;
 import java.security.*;
-import java.security.spec.X509EncodedKeySpec;
-import java.time.LocalDateTime;
-import java.util.Base64;
+import java.security.spec.ECGenParameterSpec;
 
 public class KeyExchange {
     @Getter
-    private PublicKey pubKey;
-    KeyAgreement keyAgreement;
-    byte[] sharedSecret;
-    private final LocalDateTime validUntil;
-    private final String ALG = "AES";
-
-    public KeyExchange(){
-        this.validUntil =  LocalDateTime.now().plusMinutes(5);
-        makeKeyExchangePair();
-    }
-
-    public void makeKeyExchangePair(){
-        KeyPairGenerator generator = null;
+    KeyPair pair;
+    public void initKeys(){
         try{
-            generator = KeyPairGenerator.getInstance("EC");
-            generator.initialize(256);
-            KeyPair pair = generator.generateKeyPair();
-            this.pubKey = pair.getPublic();
-            keyAgreement = KeyAgreement.getInstance("ECDH");
-            keyAgreement.init(pair.getPrivate());
-        }catch (Exception e){
+            KeyPairGenerator generator = KeyPairGenerator.getInstance("ECDH", "BC");
+            generator.initialize(new ECGenParameterSpec("secp256k1"), new SecureRandom());
+            pair = generator.generateKeyPair();
+        }catch(Exception e){
+            pair = null;
             e.printStackTrace();
         }
     }
 
-    public boolean isSafe(){
-        if(LocalDateTime.now().isBefore(this.validUntil)){
-            return true;
-        }
-        return false;
-    }
-
-    public void setReceiverPublicKey(byte[] publickey) {
-        try {
-            KeyFactory factory = KeyFactory.getInstance("EC");
-            PublicKey key = factory.generatePublic(new X509EncodedKeySpec(publickey));
-            keyAgreement.doPhase(key, true);
-            sharedSecret = keyAgreement.generateSecret();
-            System.out.println(new String(Base64.getEncoder().encode(generateKey().getEncoded())));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public String encrypt(String msg) {
-        try {
-            Key key = generateKey();
-            assert key != null;
-
-            System.out.println(new String(Base64.getEncoder().encode(key.getEncoded())));
-            Cipher c = Cipher.getInstance("AES");
-            c.init(Cipher.ENCRYPT_MODE, key);
-            byte[] encVal = c.doFinal(msg.getBytes());
-            return new String(Base64.getEncoder().encode(encVal));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return msg;
-    }
-    private Key generateKey() {
+    public PublicKey getPubKeyFromBytes(byte[] raw){
+        ECParameterSpec paramsSpec = ECNamedCurveTable.getParameterSpec("secp256k1");
+        ECPublicKeySpec pubKeySpec = new ECPublicKeySpec(paramsSpec.getCurve().decodePoint(raw), paramsSpec);
         try{
-            return new SecretKeySpec(Hashing.sha256().hashBytes(this.sharedSecret).asBytes(), ALG);
-        }catch (Exception e){
+            KeyFactory factory = KeyFactory.getInstance("ECDH", "BC");
+            return factory.generatePublic(pubKeySpec);
+        }catch(Exception e){
             e.printStackTrace();
         }
         return null;
+    }
+
+    public PrivateKey getPrivKeyFromBytes(byte[] raw){
+        ECParameterSpec paramsSpec = ECNamedCurveTable.getParameterSpec("secp256k1");
+        ECPrivateKeySpec privKeySpec = new ECPrivateKeySpec(new BigInteger(raw), paramsSpec);
+        try{
+            KeyFactory factory = KeyFactory.getInstance("ECDH", "BC");
+            return factory.generatePrivate(privKeySpec);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public byte[] calculateKey(byte[] privKey, byte[] pubKey){
+        try{
+            KeyAgreement secretAgreement = KeyAgreement.getInstance("ECDH", "BC");
+            secretAgreement.init(getPrivKeyFromBytes(privKey));
+            secretAgreement.doPhase(getPubKeyFromBytes(pubKey), true);
+            return secretAgreement.generateSecret();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public byte[] calculateKey(byte[] pubKey){
+        try{
+            KeyAgreement secretAgreement = KeyAgreement.getInstance("ECDH", "BC");
+            secretAgreement.init(pair.getPrivate());
+            secretAgreement.doPhase(getPubKeyFromBytes(pubKey), true);
+            return secretAgreement.generateSecret();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public String encodeBase64(byte[] raw){
+        return new String(Base64.encode(raw));
     }
 }

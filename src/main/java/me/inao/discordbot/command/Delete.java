@@ -1,4 +1,4 @@
-package me.inao.discordbot.command.util;
+package me.inao.discordbot.command;
 
 import me.inao.discordbot.Main;
 import me.inao.discordbot.annotation.Permission;

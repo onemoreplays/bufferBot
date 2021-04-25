@@ -27,9 +27,7 @@ api key.
 
 ### Communication
 For communication with other servers across programming languages, this base uses JSON sockets.
-To have your communication safe, I'm working on Elliptic Curve Diffie-Hellman Key Exchange
-to have AES-256 keys. Communication then should contain approved token. These are specified
-in config.json.
+To have your communication safe, I've implemented BouncyCastle to have safe Elliptic Curve Diffie Hellman (Curve25519) key exchange.
 
 ### Security
 Code is being scanned on every push from internal Git repo. This repo is being mirrored to GitHub.

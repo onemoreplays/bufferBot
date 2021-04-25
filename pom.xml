@@ -6,7 +6,7 @@
 
     <properties>
         <build.version>1.0.0</build.version>
-        <build.package>me.inao.discordbot</build.package>
+        <build.package>me.inao.bot</build.package>
         <build.main>${build.package}.Main</build.main>
         <build.java.version>8</build.java.version>
     </properties>
@@ -107,9 +107,14 @@
             <version>5.1.1</version>
         </dependency>
         <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>30.1-jre</version>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcpkix-jdk15on</artifactId>
+            <version>1.68</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.13.1</version>
         </dependency>
     </dependencies>
 </project>

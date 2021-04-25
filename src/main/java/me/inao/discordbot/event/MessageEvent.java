@@ -13,7 +13,7 @@ import org.javacord.api.listener.message.MessageCreateListener;
 @RequiredArgsConstructor
 public class MessageEvent implements MessageCreateListener, IListener {
     private final Main instance;
-    private CommandExecutor executor = new CommandExecutor();
+    private final CommandExecutor executor = new CommandExecutor();
 
     @Override
     public void onMessageCreate(MessageCreateEvent e) {

@@ -1,5 +1,6 @@
 package me.inao.discordbot.objects;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -92,6 +93,16 @@ public class Config {
         }
         return null;
     }
+
+    public JsonArray getServerTokens(){
+        try{
+            return server.get(0).get("tokens").getAsJsonArray();
+        }catch(Exception e){
+            new ExceptionCatcher(e);
+        }
+        return null;
+    }
+
     public boolean isFeatureEnabled(String name){
         try{
             for (JsonObject other : features){
@@ -125,6 +136,18 @@ public class Config {
         }
         return null;
     }
+
+    public Object getFeatureValue(String feature, String value){
+        try{
+            for (JsonObject object : features){
+                return object.getAsJsonObject(feature).get(value).getAsString();
+            }
+        }catch (Exception e){
+            new ExceptionCatcher(e);
+        }
+        return null;
+    }
+
     public String getMessage(String module, String message){
         try{
             for(JsonObject object : messages){

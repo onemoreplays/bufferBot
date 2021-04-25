@@ -12,7 +12,7 @@ import java.util.regex.Matcher;
 
 @Getter
 public class UserParam implements IParameter {
-    private List<User> parsedUsers = new ArrayList<>();
+    private final List<User> parsedUsers = new ArrayList<>();
 
     /**
      * Parse algorithm. Possible delimiters ',:;-_/'
