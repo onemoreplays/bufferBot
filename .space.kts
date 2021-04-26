@@ -7,10 +7,10 @@ job("Code quality check"){
             }
         }
     }
-    container(displayName = "Run mvn install", image = "maven:latest") {
+    container(displayName = "Build bot task", image = "gradle:7.0.0-jdk8") {
         shellScript {
             content = """
-	            mvn clean package
+	            gradle task buildBotJar
             """
         }
     }
