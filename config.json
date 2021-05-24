@@ -54,28 +54,34 @@
   "commands": [{
     "Ban": {
       "enabled": true,
+      "description": "[Admin] Ban command. Accepts parameters.",
       "channelName": "bans",
       "perms": 4
     },
     "Count": {
       "enabled": false,
+      "description": "[Admin] Creates countgame in configured channel.",
       "channelName": "countgame",
       "perms": 16
     },
     "Delete": {
       "enabled": true,
+      "description": "[Mod] Delete specified count of messages in channel",
       "perms": 8192
     },
     "Mute": {
       "enabled": true,
+      "description": "[Mod] Mute user",
       "perms": 4
     },
     "Kick": {
       "enabled": true,
+      "description": "[Mod] Kick user",
       "perms": 2
     },
     "Ping": {
       "enabled": true,
+      "description": "[Admin] Ping. Pong!",
       "perms": 8
     },
     "Setup": {
@@ -84,10 +90,12 @@
     },
     "Tell": {
       "enabled": false,
+      "description": "Tell something in DM!",
       "perms": 8192
     },
     "Test": {
       "enabled": true,
+      "description": "[Admin] Test command. Similar to the Ping command.",
       "perms": 8
     },
     "ServerToken": {
@@ -102,12 +110,12 @@
     }
   }],
   "server": [{
-    "enabled": true,
+    "enabled": false,
     "port": 1337,
     "tokens": [{
       "test": {
-        "perms": 8,
-        "name": "test"
+        "perms": 0,
+        "name": "xdd"
       }
     }]
   }],

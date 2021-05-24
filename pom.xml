@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <properties>
-        <build.version>1.0.0</build.version>
+        <build.version>1.0</build.version>
         <build.package>me.inao.discordbot</build.package>
         <build.main>${build.package}.Main</build.main>
         <build.java.version>8</build.java.version>
@@ -63,11 +63,18 @@
             </plugin>
         </plugins>
     </build>
+    <repositories>
+        <repository>
+            <id>sonatype</id>
+            <name>sonatype-snapshots</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </repository>
+    </repositories>
     <dependencies>
         <dependency>
             <groupId>org.javacord</groupId>
             <artifactId>javacord</artifactId>
-            <version>3.3.0</version>
+            <version>3.3.1-SNAPSHOT</version>
             <type>pom</type>
         </dependency>
         <dependency>

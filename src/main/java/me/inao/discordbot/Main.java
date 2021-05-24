@@ -59,6 +59,7 @@ public class Main {
             System.exit(0);
         }
         this.api = apiBuilder.login().join();
+        loader.loadSlashCommands();
         api.updateStatus(status[config.getState()]);
         api.updateActivity(ActivityType.PLAYING, (debug) ? "Launched in debug mode " + EmojiParser.parseToUnicode(":bug:") : "with Raspberry and Java" + EmojiParser.parseToUnicode(":yum:"));
         api.setAutomaticMessageCacheCleanupEnabled(true);

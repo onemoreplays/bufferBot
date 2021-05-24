@@ -65,6 +65,18 @@ public class Config {
         }
         return null;
     }
+
+    public String getCommandDescription(String name){
+        try{
+            for (JsonObject command : commands){
+                return command.getAsJsonObject(name).get("description").getAsString();
+            }
+        }catch (Exception e){
+            System.out.println("No command found :(");
+        }
+        return null;
+    }
+
     public String getCommandRoom(String name){
         try{
             for (JsonObject command : commands){

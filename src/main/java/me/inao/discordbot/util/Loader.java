@@ -8,6 +8,7 @@ import me.inao.discordbot.ifaces.IListener;
 import me.inao.discordbot.ifaces.IParameter;
 import org.apache.logging.log4j.Level;
 import org.javacord.api.DiscordApiBuilder;
+import org.javacord.api.command.ApplicationCommandBuilder;
 import org.javacord.api.listener.GloballyAttachableListener;
 import org.reflections.Reflections;
 
@@ -53,5 +54,11 @@ public class Loader {
            }
         }
         return map;
+    }
+    public void loadSlashCommands(){
+        loadedCommands.forEach((n, c) -> new ApplicationCommandBuilder().
+                setName(n).
+                setDescription(main.getConfig().getCommandDescription(n)).
+                createGlobal(main.getApi()));
     }
 }
