@@ -15,6 +15,11 @@ public class Config {
     @Getter
     private String apiKey;
 
+    @SerializedName("loggingLevel")
+    @Expose
+    @Getter
+    private String loggingLevel;
+
     @SerializedName("prefix")
     @Expose
     @Getter

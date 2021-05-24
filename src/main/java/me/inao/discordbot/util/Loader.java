@@ -11,7 +11,6 @@ import org.javacord.api.DiscordApiBuilder;
 import org.javacord.api.listener.GloballyAttachableListener;
 import org.reflections.Reflections;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 @RequiredArgsConstructor
@@ -20,24 +19,40 @@ public class Loader {
     private Map<String, ICommand> loadedCommands;
     private final Main main;
     private final DiscordApiBuilder builder;
-    public void loadListeners(String prefix) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
-        Reflections refl = new Reflections(prefix);
-        Set<Class<? extends IListener>> classes = refl.getSubTypesOf(IListener.class);
-        for (Class<? extends IListener> listener : classes) {
-            builder.addListener((GloballyAttachableListener) listener.getDeclaredConstructor(new Class[]{Main.class}).newInstance(main));
-            new Logger(main, true, false, "Loaded event", "Loaded event: " + listener.getSimpleName(), Level.DEBUG);
-        }
+    public Runnable loadListeners(String prefix) {
+        return () -> {
+            new Logger(main, "Initiating ListenerLoader..", Level.DEBUG);
+            Reflections refl = new Reflections(prefix);
+            Set<Class<? extends IListener>> classes = refl.getSubTypesOf(IListener.class);
+                for (Class<? extends IListener> listener : classes) {
+                    try {
+                        builder.addListener((GloballyAttachableListener) listener.getDeclaredConstructor(new Class[]{Main.class}).newInstance(main));
+                        new Logger(main, "Loaded event: " + listener.getSimpleName(), Level.DEBUG);
+                    } catch(Exception e){
+                        new Logger(main, e.getMessage(), Level.ERROR);
+                    }
+                }
+            new Logger(main, "EventLoader done.", Level.DEBUG);
+        };
     }
-    public void loadCommands(String prefix) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
-        Reflections refl = new Reflections(prefix);
-        Set<Class<? extends ICommand>> classes = refl.getSubTypesOf(ICommand.class);
-        loadedCommands = new HashMap<>(classes.size());
-        for (Class<? extends ICommand> command : classes) {
-            if(main.getConfig().isCommandEnabled(command.getSimpleName())){
-                loadedCommands.put(command.getSimpleName(), command.getDeclaredConstructor().newInstance());
-                new Logger(main, true, false, "Loaded command", "Loaded command: " + command.getSimpleName(), Level.DEBUG);
+    public Runnable loadCommands(String prefix) {
+        return () -> {
+            new Logger(main, "Initiating CommandLoader..", Level.DEBUG);
+            Reflections refl = new Reflections(prefix);
+            Set<Class<? extends ICommand>> classes = refl.getSubTypesOf(ICommand.class);
+            loadedCommands = new HashMap<>(classes.size());
+            for (Class<? extends ICommand> command : classes) {
+                if(main.getConfig().isCommandEnabled(command.getSimpleName())){
+                    try{
+                        loadedCommands.put(command.getSimpleName(), command.getDeclaredConstructor().newInstance());
+                        new Logger(main, "Loaded command: " + command.getSimpleName(), Level.DEBUG);
+                    }catch(Exception e){
+                        new Logger(main, "Command loading failed: " + e.getLocalizedMessage(), Level.ERROR);
+                    }
+                }
             }
-        }
+            new Logger(main, "CommandLoader done.", Level.DEBUG);
+        };
     }
     public HashMap<List<String>, IParameter> loadParams(String prefix){
         HashMap<List<String>, IParameter> map = new HashMap<>();

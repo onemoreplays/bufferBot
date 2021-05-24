@@ -2,6 +2,7 @@
   "apiKey": "",
   "prefix": "!",
   "botState": 2,
+  "loggingLevel": "INFO",
   "features": [{
     "blacklistSystem": {
       "enabled": true,

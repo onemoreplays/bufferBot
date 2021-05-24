@@ -11,6 +11,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Logger {
+    public Logger(Main instance, String value, Level level){
+        this(instance, true, false, "", value, level);
+    }
     public Logger(Main instance, boolean isConsole, boolean isDiscord, String name, String value, Level level){
         if(isConsole){
             instance.getLogger().log(level, value);
@@ -34,11 +37,11 @@ public class Logger {
         }
         if(isDiscord){
             new MessageBuilder().setEmbed(
-                 new EmbedBuilder()
-                    .setTitle(name)
-                    .setDescription(value)
-                    .setColor(color)
-                    .setFooter("Level: " + level.name() + " | At: " + new SimpleDateFormat("HH:mm:ss dd/MM/yyyy").format(new Date()))
+                    new EmbedBuilder()
+                            .setTitle(name)
+                            .setDescription(value)
+                            .setColor(color)
+                            .setFooter("Level: " + level.name() + " | At: " + new SimpleDateFormat("HH:mm:ss dd/MM/yyyy").format(new Date()))
             ).send(instance.getApi().getChannelsByName(instance.getConfig().getFeatureChannel("Logger")).iterator().next().asServerTextChannel().orElseThrow(NoSuchServerTextChannelException::new));
 
         }

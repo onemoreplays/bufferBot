@@ -15,6 +15,7 @@ import me.inao.discordbot.util.ShutdownHook;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.Configurator;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 import org.javacord.api.entity.activity.ActivityType;
@@ -50,9 +51,10 @@ public class Main {
         DiscordApiBuilder apiBuilder = new DiscordApiBuilder().setToken(config.getApiKey());
         apiBuilder.setIntents(Intent.GUILDS, Intent.GUILD_BANS, Intent.GUILD_MESSAGE_REACTIONS, Intent.GUILD_MESSAGES, Intent.GUILD_MEMBERS);
         loader = new Loader(this, apiBuilder);
+        setLogger(config.getLoggingLevel());
         try {
-            loader.loadListeners("me.inao.discordbot.event");
-            loader.loadCommands("me.inao.discordbot.command");
+            new Thread(loader.loadListeners("me.inao.discordbot.event")).start();
+            new Thread(loader.loadCommands("me.inao.discordbot.command")).start();
         } catch (Exception e) {
             new ExceptionCatcher(e);
             new me.inao.discordbot.util.Logger(this, true, false, "Loading problem", "Cannot load bot (Event/Command). Shutting down!", Level.FATAL);
@@ -87,5 +89,8 @@ public class Main {
         } catch (Exception e) {
             new ExceptionCatcher(e);
         }
+    }
+    private void setLogger(String value){
+        Configurator.setAllLevels(logger.getName(), Level.getLevel(value));
     }
 }
