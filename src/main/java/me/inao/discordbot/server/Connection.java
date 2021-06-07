@@ -8,13 +8,12 @@ import me.inao.discordbot.util.ExceptionCatcher;
 import me.inao.discordbot.util.Logger;
 import me.inao.discordbot.util.Stringy;
 import org.apache.logging.log4j.Level;
-import org.bouncycastle.jce.interfaces.ECPublicKey;
+import org.bouncycastle.util.encoders.Base64;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Base64;
 import java.util.Date;
 
 @RequiredArgsConstructor
@@ -32,9 +31,11 @@ public class Connection extends Thread{
             if(session == null || session.getValidity().after(new Date())){
                 this.session = new Session();
                 session.getKeyExchange().initKeys();
-                writer.println(session.getKeyExchange().encodeBase64(((ECPublicKey)session.getKeyExchange().getPair().getPublic()).getQ().getEncoded(true)));
+                writer.println(session.getKeyExchange().getPublicKeyEncodedString());
                 String ret = reader.readLine();
-                session.setSecret(this.session.getKeyExchange().calculateKey(Base64.getDecoder().decode(ret)));
+                session.getKeyExchange().setClientEncodedPubKey(ret);
+                session.getKeyExchange().createAgreement();
+                System.out.println(new String(Base64.encode(session.getKeyExchange().getSharedSecret())));
                 new Logger(instance, true, true, "Remote API Connection", "New client has connected.", Level.INFO);
                 server.getSessions().put(Stringy.getRandomIdentifier(), session);
                 return;
