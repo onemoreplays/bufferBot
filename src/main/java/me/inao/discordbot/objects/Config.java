@@ -99,6 +99,15 @@ public class Config {
         return null;
     }
 
+    public String getServerGpgProperty(String property){
+        try{
+            return server.get(0).get("gpg").getAsJsonObject().getAsJsonPrimitive(property).getAsString();
+        }catch (Exception e){
+            new ExceptionCatcher(e);
+        }
+        return null;
+    }
+
     public JsonArray getServerTokens(){
         try{
             return server.get(0).get("tokens").getAsJsonArray();

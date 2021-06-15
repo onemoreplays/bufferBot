@@ -1,4 +1,4 @@
-package me.inao.discordbot.server;
+package me.inao.discordbot.crypto;
 
 import lombok.Getter;
 import lombok.Setter;

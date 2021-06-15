@@ -105,6 +105,11 @@
   "server": [{
     "enabled": true,
     "port": 1337,
+    "gpg": {
+      "pass": "changeMe",
+      "name": "Testing User",
+      "email": "elliot.alderson@allsafe.com"
+    },
     "tokens": [{
       "test": {
         "perms": 8,

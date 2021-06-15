@@ -3,7 +3,7 @@ package me.inao.discordbot.server;
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import me.inao.discordbot.Main;
-import me.inao.discordbot.util.AES;
+import me.inao.discordbot.crypto.AES;
 import me.inao.discordbot.util.ExceptionCatcher;
 import me.inao.discordbot.util.Logger;
 import me.inao.discordbot.util.Stringy;

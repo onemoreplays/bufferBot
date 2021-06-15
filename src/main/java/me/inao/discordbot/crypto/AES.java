@@ -1,7 +1,8 @@
-package me.inao.discordbot.util;
+package me.inao.discordbot.crypto;
 
 import lombok.AllArgsConstructor;
 import me.inao.discordbot.Main;
+import me.inao.discordbot.util.ExceptionCatcher;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;

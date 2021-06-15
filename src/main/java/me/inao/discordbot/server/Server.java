@@ -3,6 +3,7 @@ package me.inao.discordbot.server;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import me.inao.discordbot.Main;
+import me.inao.discordbot.crypto.PGP;
 import me.inao.discordbot.ifaces.IResponse;
 import me.inao.discordbot.server.thread.SessionCleanerThread;
 import me.inao.discordbot.util.ExceptionCatcher;
@@ -23,10 +24,15 @@ import java.util.concurrent.TimeUnit;
 public class Server extends Thread {
     private final Main instance;
     private volatile boolean run = true;
+
     @Getter
     private HashMap<String, IResponse> actions;
+
     @Getter
     private HashMap<String, Session> sessions = new HashMap<>();
+
+    @Getter
+    private PGP pgp;
 
     @Override
     public void run() {
@@ -35,6 +41,8 @@ public class Server extends Thread {
         }
         if (!run) return;
         try {
+            this.pgp = new PGP(instance);
+            pgp.generateKeys();
             ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
             executorService.scheduleAtFixedRate(new SessionCleanerThread(this), 0, 30, TimeUnit.MINUTES);
             new Logger(instance, true, false, "Session cleaner", "Session cleaner set for 30 minutes. Invalid sessions will be destoryed when client tries to connect, otherwise after 30 minutes.", Level.INFO);
