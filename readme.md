@@ -23,7 +23,7 @@ When we are talking about config, this base uses JSON config files. These config
 to be easy, variable and just working.
 For your local development, copy `config.json` and rename it as `config.local.json`.
 This config file is fully working, preferred and should be just copy of config.json, but without
-api key. :)
+api key.
 
 ### Communication
 For communication with other servers across programming languages, this base uses JSON sockets.
