@@ -11,15 +11,16 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Logger {
-    public Logger(Main instance, String value, Level level){
+    public Logger(Main instance, String value, Level level) {
         this(instance, true, false, "", value, level);
     }
-    public Logger(Main instance, boolean isConsole, boolean isDiscord, String name, String value, Level level){
-        if(isConsole){
+
+    public Logger(Main instance, boolean isConsole, boolean isDiscord, String name, String value, Level level) {
+        if (isConsole) {
             instance.getLogger().log(level, value);
         }
         Color color;
-        switch (level.name().toLowerCase()){
+        switch (level.name().toLowerCase()) {
             case "info":
                 color = Color.BLUE;
                 break;
@@ -35,7 +36,7 @@ public class Logger {
             default:
                 color = Color.GRAY;
         }
-        if(isDiscord){
+        if (isDiscord) {
             new MessageBuilder().setEmbed(
                     new EmbedBuilder()
                             .setTitle(name)

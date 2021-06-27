@@ -50,10 +50,11 @@ public class Main {
         loadConfig();
         DiscordApiBuilder apiBuilder = new DiscordApiBuilder().setToken(config.getApiKey());
         apiBuilder.setIntents(Intent.GUILDS, Intent.GUILD_BANS, Intent.GUILD_MESSAGE_REACTIONS, Intent.GUILD_MESSAGES, Intent.GUILD_MEMBERS);
-        loader = new Loader(this, apiBuilder);
+        loader = new Loader(this);
         setLogger(config.getLoggingLevel());
         try {
-            new Thread(loader.loadListeners("me.inao.discordbot.event")).start();
+            loader.loadListeners("me.inao.discordbot.event", apiBuilder).run();
+            new Thread(loader.loadParams("me.inao.discordbot.commands.params")).start();
             new Thread(loader.loadCommands("me.inao.discordbot.command")).start();
         } catch (Exception e) {
             new ExceptionCatcher(e);
@@ -90,7 +91,8 @@ public class Main {
             new ExceptionCatcher(e);
         }
     }
-    private void setLogger(String value){
+
+    private void setLogger(String value) {
         Configurator.setAllLevels(logger.getName(), Level.getLevel(value));
     }
 }

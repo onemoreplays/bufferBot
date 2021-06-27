@@ -20,11 +20,9 @@ public class CommandExecutor {
      */
     public void execute(Message message, Main instance){
         CommandParser parser = new CommandParser();
-        if(parser.getMap() == null){
-            parser.setApi(instance.getApi());
-            parser.setMap(instance.getLoader().loadParams("me.inao.discordbot.commands.params"));
-            parser.setCommandPrefix(String.valueOf(instance.getConfig().getPrefix()));
-        }
+        parser.setApi(instance.getApi());
+        parser.setLoader(instance.getLoader());
+        parser.setCommandPrefix(String.valueOf(instance.getConfig().getPrefix()));
         String[] parsed = parser.getParsedCommand(message.getContent());
         List<IParameter> parameterList = parser.getParsedValues(parsed);
 

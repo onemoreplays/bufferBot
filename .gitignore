@@ -8,3 +8,4 @@ target/
 /generated/log/
 config.local.json
 /build/
+/generated/pgp/

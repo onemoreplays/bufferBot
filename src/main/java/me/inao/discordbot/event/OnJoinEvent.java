@@ -50,7 +50,11 @@ public class OnJoinEvent implements ServerMemberJoinListener, IListener {
                     captcha.getArguments().put("auth", main.getConfig().getFeatureValue("captchaSystem", "httpAuth"));
                 }
                 captcha.getArguments().put("discordId", new String[]{e.getUser().getIdAsString()});
-                String response = Jsoup.parse(new Driver(captcha).postRequestWithResponse()).text();
+                String response = new Driver(captcha).postRequestWithResponse();
+                if(response == null){
+                    main.getLogger().log(Level.DEBUG, "Caught NULL response by PHP Backend. Please check. discordId: " + e.getUser().getIdAsString());
+                }
+                response = Jsoup.parse(new Driver(captcha).postRequestWithResponse()).text();
                 String link = ((String) main.getConfig().getFeatureValue("captchaSystem", "webLink")).replace("%_code_%", new JsonParser().parse(response).getAsJsonObject().get(e.getUser().getIdAsString()).getAsString());
                 String message = main.getConfig().getMessage("captcha", "welcome").replace("%_link_%", link).replace("%_emoji_%", EmojiParser.parseToUnicode(":white_check_mark:"));
                 ServerTextChannel captchaChannel = createChannel(e.getUser(), e.getServer());

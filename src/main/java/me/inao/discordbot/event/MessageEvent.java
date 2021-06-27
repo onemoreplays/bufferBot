@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import me.inao.discordbot.Main;
 import me.inao.discordbot.commands.CommandExecutor;
+import me.inao.discordbot.commands.CommandParser;
 import me.inao.discordbot.exception.NoSuchServerTextChannelException;
 import me.inao.discordbot.ifaces.IListener;
 import org.javacord.api.event.message.MessageCreateEvent;
@@ -14,13 +15,14 @@ import org.javacord.api.listener.message.MessageCreateListener;
 public class MessageEvent implements MessageCreateListener, IListener {
     private final Main instance;
     private final CommandExecutor executor = new CommandExecutor();
+    private final CommandParser parser = new CommandParser();
 
     @Override
     public void onMessageCreate(MessageCreateEvent e) {
-        if (e.getMessage().isPrivateMessage()) {
+        if (e.getMessageAuthor().isBotUser()) {
             return;
         }
-        if (e.getMessageAuthor().isBotUser()) {
+        if (e.getMessage().isPrivateMessage()) {
             return;
         }
         if (instance.getConfig().isFeatureEnabled("channelLimit") || instance.getConfig().isCommandEnabled("Count")) {

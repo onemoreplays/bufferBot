@@ -1,31 +1,30 @@
 package me.inao.discordbot.commands;
 
 
-import lombok.Getter;
 import lombok.Setter;
 import me.inao.discordbot.ifaces.IParameter;
+import me.inao.discordbot.util.Loader;
 import org.javacord.api.DiscordApi;
 
 import java.util.*;
 
 public class CommandParser {
-    @Getter
-    @Setter
-    private HashMap<List<String>, IParameter> map = null;
-
     @Setter
     private DiscordApi api;
+
+    @Setter
+    private Loader loader;
 
     @Setter
     private String commandPrefix;
 
     public List<IParameter> getParsedValues(String[] parts){
         List<IParameter> parameters = new ArrayList<>();
-        if(map == null) return null;
+//        if(loader.getParameterList() == null) return null;
         for (String part : parts){
             if(checkForCommandPair(part)) continue;
             String[] partSplit = part.split("\\s");
-            Optional<IParameter> parameter = map.entrySet().stream().filter(listIParameterEntry -> listIParameterEntry.getKey().stream().anyMatch(entry -> entry.matches(partSplit[0]))).map(Map.Entry::getValue).findAny();
+            Optional<IParameter> parameter = loader.getParameterList().entrySet().stream().filter(listIParameterEntry -> listIParameterEntry.getKey().stream().anyMatch(entry -> entry.matches(partSplit[0]))).map(Map.Entry::getValue).findAny();
             if(parameter.isPresent()){
                 String[] modifiedArray = Arrays.copyOfRange(partSplit, 1, partSplit.length);
                 IParameter param = parameter.get();
