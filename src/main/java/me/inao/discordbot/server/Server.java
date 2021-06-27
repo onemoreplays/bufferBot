@@ -29,7 +29,7 @@ public class Server extends Thread {
     private HashMap<String, IResponse> actions;
 
     @Getter
-    private HashMap<String, Session> sessions = new HashMap<>();
+    private final HashMap<String, Session> sessions = new HashMap<>();
 
     @Getter
     private PGP pgp;
