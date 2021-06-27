@@ -19,7 +19,7 @@ public class Loader {
     private Map<String, ICommand> loadedCommands;
 
     @Getter
-    private HashMap<List<String>, IParameter> parameterList = new HashMap<>();
+    private final HashMap<List<String>, IParameter> parameterList = new HashMap<>();
 
     private final Main main;
 

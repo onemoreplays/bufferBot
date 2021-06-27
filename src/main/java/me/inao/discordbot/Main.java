@@ -34,7 +34,7 @@ public class Main {
     private Countgame countgame = null;
     private final SQLite sqlite = new SQLite();
     private final Logger logger = LogManager.getLogger("me.inao.discordbot");
-    private final boolean debug = true;
+    private final boolean debug = false;
     @Getter
     Loader loader;
     @Getter
@@ -69,6 +69,7 @@ public class Main {
         api.setMessageCacheSize(15, 3600);
         new me.inao.discordbot.util.Logger(this, true, true, "Bot start", "Loaded. Invite: " + api.createBotInvite().replace("permissions=0", "permissions=8"), Level.INFO);
         Runtime.getRuntime().addShutdownHook(new ShutdownHook(this));
+        System.gc();
     }
 
     public void loadConfig() {
